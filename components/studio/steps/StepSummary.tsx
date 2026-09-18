@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getCollection, getDesign } from "@/lib/data/designs";
+import { getCollection } from "@/lib/data/collections";
+import { getTemplate } from "@/lib/templates";
 import { useStudioStore } from "@/lib/store/useStudioStore";
 import type { AddonSelection } from "@/lib/types";
 import { Header } from "@/components/studio/steps/StepNames";
@@ -20,8 +21,8 @@ export function StepSummary() {
   const { draft, setAddon } = useStudioStore();
   const router = useRouter();
 
-  const design = getDesign(draft.designId ?? "");
-  const collection = design ? getCollection(design.collectionId) : undefined;
+  const template = getTemplate(draft.designId);
+  const collection = template ? getCollection(template.collectionId) : undefined;
 
   const total =
     BASE_PRICE +
@@ -36,7 +37,7 @@ export function StepSummary() {
           <Row label="Couple" value={`${draft.prenom1 || "—"} & ${draft.prenom2 || "—"}`} />
           <Row label="Date" value={draft.dateMariage || "—"} />
           <Row label="Lieu" value={draft.lieu || "—"} />
-          <Row label="Collection" value={collection ? `${collection.name} · ${design?.palette.name}` : "Aucune sélectionnée"} />
+          <Row label="Collection" value={collection ? `${collection.name} · ${template?.theme.palette.name}` : "Aucune sélectionnée"} />
         </dl>
       </div>
 

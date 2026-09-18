@@ -1,6 +1,6 @@
 "use client";
 
-import type { DesignVariant } from "@/lib/types";
+import type { TemplateDefinition } from "@/lib/types";
 
 const items: { href: string; label: string; icon: string }[] = [
   { href: "#programme", label: "Programme", icon: "◔" },
@@ -9,8 +9,8 @@ const items: { href: string; label: string; icon: string }[] = [
   { href: "#cagnotte", label: "Cagnotte", icon: "♥" },
 ];
 
-export function ActionBar({ design }: { design: DesignVariant }) {
-  const { ink, paper, accent } = design.palette;
+export function ActionBar({ template }: { template: TemplateDefinition }) {
+  const { ink, paper, accent } = template.theme.palette;
 
   return (
     <nav

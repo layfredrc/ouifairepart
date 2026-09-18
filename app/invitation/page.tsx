@@ -4,32 +4,35 @@ import { useState } from "react";
 import { ActionBar } from "@/components/invitation/ActionBar";
 import { InvitationCanvas } from "@/components/invitation/InvitationCanvas";
 import { OpeningGate } from "@/components/invitation/OpeningGate";
-import { getCollection, getDesign } from "@/lib/data/designs";
 import { demoDraft } from "@/lib/data/demoDraft";
+import { resolveOpening } from "@/lib/motion/opening";
 import { useStudioStore } from "@/lib/store/useStudioStore";
+import { resolveTemplate } from "@/lib/templates";
 
 export default function InvitationPage() {
   const { draft } = useStudioStore();
   const [opened, setOpened] = useState(false);
 
   const effectiveDraft = draft.designId ? draft : demoDraft;
-  const design = getDesign(effectiveDraft.designId ?? "") ?? getDesign(demoDraft.designId!)!;
-  const collection = getCollection(design.collectionId)!;
+  const template = resolveTemplate(effectiveDraft.designId);
+  const opening = resolveOpening(template, effectiveDraft);
 
   return (
-    <div className="relative min-h-screen pb-24" style={{ background: design.palette.paper }}>
+    <div
+      className="relative min-h-screen pb-24"
+      style={{ background: template.theme.palette.paper }}
+    >
       {!opened && (
         <OpeningGate
-          design={design}
-          collection={collection}
+          template={template}
+          opening={opening}
           prenom1={effectiveDraft.prenom1}
           prenom2={effectiveDraft.prenom2}
-          style={effectiveDraft.openingStyle}
           onOpen={() => setOpened(true)}
         />
       )}
       <InvitationCanvas draft={effectiveDraft} mode="full" />
-      {opened && <ActionBar design={design} />}
+      {opened && <ActionBar template={template} />}
     </div>
   );
 }

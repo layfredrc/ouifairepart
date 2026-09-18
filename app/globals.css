@@ -7,6 +7,9 @@
   --ink-soft: #55493d;
   --line: #e2d6bf;
   --accent: #7a2e32;
+  --site-display: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
+  --site-body: var(--font-jost), "Segoe UI", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
 @theme inline {
@@ -16,23 +19,21 @@
   --color-ink-soft: var(--ink-soft);
   --color-line: var(--line);
   --color-accent: var(--accent);
-  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
-    "Times New Roman", serif;
-  --font-body: "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
+  --font-display: var(--site-display);
+  --font-body: var(--site-body);
 }
 
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--site-body);
 }
 
 h1,
 h2,
 h3,
 .font-display {
-  font-family: var(--font-display), serif;
+  font-family: var(--site-display);
 }
 
 ::selection {
@@ -77,5 +78,13 @@ h3,
   .input:focus {
     border-color: var(--accent);
   }
-}
 
+  /* Paire de polices du template rendu. Les variables sont posées par le
+     moteur sur la racine de l'invitation ou de l'aperçu. */
+  .ofp-display {
+    font-family: var(--ofp-display, var(--site-display));
+  }
+  .ofp-body {
+    font-family: var(--ofp-body, var(--site-body));
+  }
+}

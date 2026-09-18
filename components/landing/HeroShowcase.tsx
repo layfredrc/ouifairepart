@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { PersonalizedPreview } from "@/components/ui/PersonalizedPreview";
-import { designs } from "@/lib/data/designs";
+import { resolveTemplate } from "@/lib/templates";
 import { useCoupleStore } from "@/lib/store/useCoupleStore";
 
 const showcaseIds = [
@@ -27,20 +27,24 @@ export function HeroShowcase() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const design = designs.find((d) => d.id === showcaseIds[index])!;
+  const template = resolveTemplate(showcaseIds[index]);
 
   return (
     <div className="relative flex justify-center">
       <div className="absolute -inset-10 -z-10 rounded-[3rem] bg-gradient-to-br from-paper-deep to-paper" />
       <AnimatePresence mode="wait">
         <motion.div
-          key={design.id}
+          key={template.id}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <PersonalizedPreview design={design} date="Samedi 12 septembre 2026" compact={false} />
+          <PersonalizedPreview
+            template={template}
+            date="Samedi 12 septembre 2026"
+            compact={false}
+          />
         </motion.div>
       </AnimatePresence>
     </div>

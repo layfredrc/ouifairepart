@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { CoverArt } from "@/components/ui/CoverArt";
+import { DecorCanvas } from "@/components/invitation/decor/DecorCanvas";
 import { PersonalizedPreview } from "@/components/ui/PersonalizedPreview";
-import { getCollection, getDesignsByCollection, getDesign } from "@/lib/data/designs";
+import { getCollection } from "@/lib/data/collections";
+import { getTemplate, getTemplatesByCollection } from "@/lib/templates";
 import { useCoupleStore } from "@/lib/store/useCoupleStore";
 import { useStudioStore } from "@/lib/store/useStudioStore";
 
@@ -17,9 +18,9 @@ export function DesignDetail() {
   const { prenom1, prenom2 } = useCoupleStore();
   const { setField } = useStudioStore();
 
-  const design = getDesign(selectedId) ?? getDesign(id ?? "");
+  const template = getTemplate(selectedId) ?? getTemplate(id);
 
-  if (!design) {
+  if (!template) {
     return (
       <div className="container-page py-24 text-center">
         <p className="font-display text-2xl">Design introuvable</p>
@@ -36,12 +37,12 @@ export function DesignDetail() {
     );
   }
 
-  const collection = getCollection(design.collectionId)!;
-  const variants = getDesignsByCollection(design.collectionId);
+  const collection = getCollection(template.collectionId)!;
+  const variants = getTemplatesByCollection(template.collectionId);
 
   const handlePersonalize = () => {
-    setField("designId", design.id);
-    setField("paletteId", design.palette.id);
+    setField("designId", template.id);
+    setField("paletteId", template.theme.palette.id);
     if (prenom1) setField("prenom1", prenom1);
     if (prenom2) setField("prenom2", prenom2);
     router.push("/studio");
@@ -55,14 +56,18 @@ export function DesignDetail() {
 
       <div className="mt-6 grid gap-12 lg:grid-cols-[380px_1fr]">
         <div className="mx-auto lg:mx-0">
-          <PersonalizedPreview design={design} compact={false} date="Samedi 12 septembre 2026" />
+          <PersonalizedPreview
+            template={template}
+            compact={false}
+            date="Samedi 12 septembre 2026"
+          />
         </div>
 
         <div>
           <p className="text-xs uppercase tracking-[0.25em] text-accent">
             Collection {collection.name}
           </p>
-          <h1 className="mt-2 font-display text-3xl md:text-4xl">{design.name}</h1>
+          <h1 className="mt-2 font-display text-3xl md:text-4xl">{template.name}</h1>
           <p className="mt-3 max-w-lg text-ink-soft">{collection.description}</p>
 
           <div className="mt-8">
@@ -75,16 +80,16 @@ export function DesignDetail() {
                   key={variant.id}
                   onClick={() => setSelectedId(variant.id)}
                   className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition ${
-                    variant.id === design.id
+                    variant.id === template.id
                       ? "border-ink"
                       : "border-line text-ink-soft hover:border-ink"
                   }`}
                 >
                   <span
                     className="h-3 w-3 rounded-full"
-                    style={{ background: variant.palette.accent }}
+                    style={{ background: variant.theme.palette.accent }}
                   />
-                  {variant.palette.name}
+                  {variant.theme.palette.name}
                 </button>
               ))}
             </div>
@@ -95,11 +100,11 @@ export function DesignDetail() {
               Inclus avec ce design
             </p>
             <ul className="mt-3 grid grid-cols-2 gap-2 text-sm text-ink-soft sm:grid-cols-3">
-              <FeatureRow label="RSVP" on={design.features.rsvp} />
-              <FeatureRow label="Cagnotte" on={design.features.cagnotte} />
-              <FeatureRow label="Musique" on={design.features.musique} />
-              <FeatureRow label="Multilingue" on={design.features.multilingue} />
-              <FeatureRow label="Plan des invités" on={design.features.planInvites} />
+              <FeatureRow label="RSVP" on={template.features.rsvp} />
+              <FeatureRow label="Cagnotte" on={template.features.cagnotte} />
+              <FeatureRow label="Musique" on={template.features.musique} />
+              <FeatureRow label="Multilingue" on={template.features.multilingue} />
+              <FeatureRow label="Plan des invités" on={template.features.planInvites} />
             </ul>
           </div>
 
@@ -123,7 +128,12 @@ export function DesignDetail() {
               Aperçu de la composition
             </p>
             <div className="mt-4 aspect-[4/7] w-full max-w-[180px] overflow-hidden rounded-2xl border border-line">
-              <CoverArt motif={collection.motif} palette={design.palette} className="h-full w-full" />
+              <DecorCanvas
+                decor={template.decor}
+                palette={template.theme.palette}
+                stroke={template.theme.stroke}
+                className="h-full w-full"
+              />
             </div>
           </div>
         </div>
