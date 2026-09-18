@@ -55,6 +55,20 @@ const COUPLES = [
   { role: "cagnotte · texte", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
   { role: "cagnotte · bouton", texte: "ink", niveau: "fort", fond: "paper", px: 14 },
   { role: "contact · signature", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
+  // Passe 2 — programme et lieu. Les tailles sont celles de l'aperçu téléphone, les plus petites rendues.
+  { role: "programme · grille · heure", texte: "accent", niveau: "fort", fond: "paper", px: 20 },
+  { role: "programme · grille · intitulé", texte: "ink", niveau: "fort", fond: "paper", px: 14 },
+  { role: "programme · grille · lieu d'étape", texte: "ink", niveau: "doux", fond: "paper", px: 8.8 },
+  { role: "programme · cartes · pastille heure", texte: "paper", niveau: "fort", fond: "accent", px: 8.8 },
+  { role: "programme · cartes · intitulé", texte: "ink", niveau: "fort", fond: "paper", px: 16 },
+  { role: "programme · frise · heure", texte: "ink", niveau: "doux", fond: "paper", px: 8.8 },
+  { role: "programme · frise · marqueur numéroté", texte: "paper", niveau: "fort", fond: "accent", px: 8 },
+  { role: "programme · frise · lieu d'étape", texte: "ink", niveau: "doux", fond: "paper", px: 8.8 },
+  { role: "lieu · carte · ville", texte: "ink", niveau: "doux", fond: "paper", px: 8.8 },
+  { role: "lieu · carte · itinéraires soulignés", texte: "ink", niveau: "fort", fond: "paper", px: 9.6 },
+  { role: "lieu · carte · rose des vents", texte: "accent", niveau: "fort", fond: "paper", px: 11 },
+  { role: "lieu · duo · coiffe des étapes", texte: "ink", niveau: "doux", fond: "paper", px: 8.8 },
+  { role: "lieu · duo · esperluette", texte: "accent", niveau: "fort", fond: "paper", px: 18 },
 ];
 
 /** Doit rester aligné sur `opacitesSouhaitees` de lib/theme/tokens.ts. */
