@@ -55,6 +55,31 @@ const COUPLES = [
   { role: "cagnotte · texte", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
   { role: "cagnotte · bouton", texte: "ink", niveau: "fort", fond: "paper", px: 14 },
   { role: "contact · signature", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
+  // Passe 2 — RSVP formulaire-encadre (la carte est au fond papier, posée sur le décor)
+  { role: "rsvp encadré · question", texte: "ink", niveau: "fort", fond: "paper", px: 24 },
+  { role: "rsvp encadré · étiquettes", texte: "ink", niveau: "doux", fond: "paper", px: 10.4 },
+  { role: "rsvp encadré · compteur", texte: "ink", niveau: "doux", fond: "paper", px: 12 },
+  { role: "rsvp encadré · encart aperçu", texte: "ink", niveau: "discret", fond: "paper", px: 9.6 },
+  { role: "rsvp encadré · présent sélectionné", texte: "paper", niveau: "fort", fond: "accent", px: 14 },
+  { role: "rsvp encadré · absent sélectionné", texte: "paper", niveau: "fort", fond: "ink", px: 14 },
+  // Passe 2 — RSVP deux-temps
+  { role: "rsvp deux-temps · question", texte: "ink", niveau: "fort", fond: "paper", px: 30 },
+  { role: "rsvp deux-temps · oui", texte: "paper", niveau: "fort", fond: "accent", px: 16 },
+  { role: "rsvp deux-temps · non", texte: "ink", niveau: "fort", fond: "paper", px: 16 },
+  { role: "rsvp deux-temps · indicateur d'étape", texte: "ink", niveau: "doux", fond: "paper", px: 10.4 },
+  { role: "rsvp deux-temps · rappel de réponse", texte: "ink", niveau: "fort", fond: "paper", px: 20 },
+  { role: "rsvp deux-temps · changer ma réponse", texte: "ink", niveau: "fort", fond: "paper", px: 12 },
+  { role: "rsvp deux-temps · confirmer", texte: "paper", niveau: "fort", fond: "ink", px: 14 },
+  { role: "rsvp deux-temps · remerciement", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
+  // Passe 2 — Cagnotte note-en-marge
+  { role: "cagnotte en marge · texte", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
+  { role: "cagnotte en marge · adresse", texte: "ink", niveau: "fort", fond: "paper", px: 18 },
+  { role: "cagnotte en marge · copier", texte: "ink", niveau: "fort", fond: "paper", px: 12 },
+  // Passe 2 — Contact colophon
+  { role: "colophon · prénoms", texte: "ink", niveau: "fort", fond: "paper", px: 36 },
+  { role: "colophon · esperluette", texte: "accent", niveau: "fort", fond: "paper", px: 36 },
+  { role: "colophon · date et ville", texte: "ink", niveau: "doux", fond: "paper", px: 12 },
+  { role: "colophon · réponse", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
 ];
 
 /** Doit rester aligné sur `opacitesSouhaitees` de lib/theme/tokens.ts. */
