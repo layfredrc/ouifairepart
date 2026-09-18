@@ -18,4 +18,5 @@ export interface RsvpFormulaireEncadreOptions {
 export interface RsvpVariants {
   "formulaire-centre": SansOptions;
   "formulaire-encadre": RsvpFormulaireEncadreOptions;
+  "deux-temps": SansOptions;
 }
