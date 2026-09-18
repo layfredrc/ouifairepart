@@ -42,7 +42,7 @@ export function HeroShowcase() {
         >
           <PersonalizedPreview
             template={template}
-            date="Samedi 12 septembre 2026"
+            date="2026-09-12"
             compact={false}
           />
         </motion.div>

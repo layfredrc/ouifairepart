@@ -83,8 +83,69 @@ h3,
      moteur sur la racine de l'invitation ou de l'aperçu. */
   .ofp-display {
     font-family: var(--ofp-display, var(--site-display));
+    font-feature-settings: "liga", "kern";
   }
   .ofp-body {
     font-family: var(--ofp-body, var(--site-body));
+  }
+
+  /* Racine d'un rendu d'invitation : un conteneur, pour que les corps de
+     texte et le rythme (en cqi) suivent la largeur du cadre et non celle
+     de l'écran. L'aperçu téléphone du Studio devient ainsi un vrai mobile. */
+  .ofp-root {
+    container-type: inline-size;
+    container-name: invitation;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Grain de papier : un bruit vectoriel (feTurbulence) fondu en
+     multiplication, sans aucune image bitmap. Quatre pour cent suffisent
+     à sortir le papier de l'aplat d'écran. */
+  .ofp-grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .ofp-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+    background-size: 260px 260px;
+  }
+  .ofp-grain > * {
+    position: relative;
+  }
+
+  /* Champ de coupon-réponse : un filet sous la ligne, rien autour. */
+  .ofp-champ {
+    display: block;
+    width: 100%;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--ofp-line-strong);
+    border-radius: 0;
+    padding: 0.55rem 0;
+    font-family: var(--ofp-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--ofp-ink);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .ofp-champ::placeholder {
+    color: transparent;
+  }
+  .ofp-champ:focus-visible {
+    border-bottom-color: var(--ofp-accent);
+    box-shadow: 0 1px 0 0 var(--ofp-accent);
+  }
+  .ofp-champ:disabled {
+    opacity: 1;
   }
 }

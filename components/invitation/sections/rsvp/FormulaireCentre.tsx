@@ -3,12 +3,29 @@
 import { useState } from "react";
 import { SectionRoot } from "@/components/invitation/engine/SectionRoot";
 import { useSection } from "@/components/invitation/engine/SectionScope";
-import { SectionLabel } from "@/components/invitation/sections/shared/SectionLabel";
+import { Bouton } from "@/components/invitation/sections/shared/Bouton";
+import { Champ, ChampTexte, Choix } from "@/components/invitation/sections/shared/Champ";
+import { Intitule } from "@/components/invitation/sections/shared/Intitule";
 import { useRsvpStore } from "@/lib/store/useRsvpStore";
+import { COLONNE, ETIQUETTE } from "@/lib/theme/tokens";
 
+const REPONSES = [
+  { valeur: "present", libelle: "Je serai présent·e" },
+  { valeur: "absent", libelle: "Je ne pourrai pas venir" },
+] as const;
+
+/**
+ * Le RSVP comme un coupon-réponse : une question en titrage, deux cases
+ * à cocher, des champs soulignés d'un filet, un bouton en bloc d'encre.
+ * Rien d'une interface d'application : c'est le carton glissé dans
+ * l'enveloppe, rendu actif.
+ *
+ * Dans l'aperçu téléphone du Studio, le coupon est rendu tel quel mais
+ * inerte : il n'écrit jamais dans le store des réponses.
+ */
 export function FormulaireCentre() {
   const { draft, theme } = useSection();
-  const { accent, ink, paper } = theme.palette;
+  const { ink } = theme.palette;
   const { full } = theme;
   const { entries, addEntry } = useRsvpStore();
   const [reponse, setReponse] = useState<"present" | "absent" | null>(null);
@@ -18,140 +35,105 @@ export function FormulaireCentre() {
     .filter((e) => e.reponse === "present")
     .reduce((sum, e) => sum + e.personnes, 0);
 
-  const champClass = `w-full ${theme.radius.champ} border px-4 py-2.5 text-sm outline-none`;
-  const champStyle = { borderColor: `${accent}44`, background: paper, color: ink };
-
   return (
     <SectionRoot className={`${theme.gutter} ${theme.space("normal")}`}>
-      <SectionLabel>RSVP</SectionLabel>
-      {draft.compteurPublic && (
+      <div className={COLONNE}>
+        <Intitule>Réponse souhaitée</Intitule>
         <p
-          className={`mt-3 text-center ${full ? "text-sm" : "text-[0.6rem]"}`}
-          style={{ color: theme.encre("discret") }}
+          className={`ofp-display ${theme.displayStyleClass} ${theme.type("lieu")} mt-[clamp(1.25rem,5cqi,2.25rem)] text-balance`}
+          style={{ color: ink }}
         >
-          {totalPresent} personne{totalPresent > 1 ? "s" : ""} déjà annoncée
-          {totalPresent > 1 ? "s" : ""}
+          Serez-vous des nôtres&nbsp;?
         </p>
-      )}
-
-      {!full ? (
-        <div
-          className={`mx-auto mt-4 max-w-sm ${theme.radius.carte} border px-4 py-5 text-center text-[0.6rem]`}
-          style={{ borderColor: `${accent}25`, color: theme.encre("discret") }}
-        >
-          Aperçu — le formulaire RSVP est actif sur la page publiée.
-        </div>
-      ) : submitted ? (
-        <p className="mx-auto mt-6 max-w-sm text-center text-sm" style={{ color: ink }}>
-          Merci, votre réponse a bien été enregistrée.
-        </p>
-      ) : (
-        <form
-          className="mx-auto mt-6 max-w-sm space-y-4"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const data = new FormData(e.currentTarget);
-            addEntry({
-              nom: String(data.get("nom") || "Invité"),
-              personnes: Number(data.get("personnes") || 1),
-              reponse: reponse ?? "present",
-              message: String(data.get("message") || "") || undefined,
-            });
-            setSubmitted(true);
-          }}
-        >
-          <input
-            name="nom"
-            required
-            placeholder="Votre nom"
-            className={champClass}
-            style={champStyle}
-          />
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => setReponse("present")}
-              className={`flex-1 ${theme.radius.champ} border px-4 py-2.5 text-sm transition`}
-              style={{
-                borderColor: accent,
-                background: reponse === "present" ? accent : "transparent",
-                color: reponse === "present" ? paper : ink,
-              }}
-            >
-              Je serai présent·e
-            </button>
-            <button
-              type="button"
-              onClick={() => setReponse("absent")}
-              className={`flex-1 ${theme.radius.champ} border px-4 py-2.5 text-sm transition`}
-              style={{
-                borderColor: `${accent}66`,
-                background: reponse === "absent" ? ink : "transparent",
-                color: reponse === "absent" ? paper : ink,
-              }}
-            >
-              Je ne pourrai pas venir
-            </button>
-          </div>
-          <input
-            name="personnes"
-            type="number"
-            min={1}
-            defaultValue={1}
-            className={champClass}
-            style={champStyle}
-          />
-          <textarea
-            name="message"
-            placeholder="Un mot pour les mariés (facultatif)"
-            rows={3}
-            className={champClass}
-            style={champStyle}
-          />
-          <button
-            type="submit"
-            className={`w-full ${theme.radius.champ} py-3 text-sm`}
-            style={{ background: ink, color: paper }}
-          >
-            Envoyer ma réponse
-          </button>
-        </form>
-      )}
-
-      {full && entries.length > 0 && (
-        <div
-          className="mx-auto mt-10 max-w-sm border-t pt-6"
-          style={{ borderColor: `${accent}33` }}
-        >
-          <p className="text-xs uppercase tracking-widest" style={{ color: theme.encre("discret") }}>
-            Réponses reçues
+        {draft.compteurPublic && (
+          <p className={`${ETIQUETTE} mt-3`} style={{ color: theme.encre("doux") }}>
+            {totalPresent} personne{totalPresent > 1 ? "s" : ""} déjà annoncée
+            {totalPresent > 1 ? "s" : ""}
           </p>
-          <ul className="mt-3 space-y-2 text-sm">
-            {entries
-              .slice(-5)
-              .reverse()
-              .map((entry) => (
-                <li
-                  key={entry.id}
-                  className="flex items-center justify-between"
-                  style={{ color: ink }}
-                >
-                  <span>{entry.nom}</span>
-                  <span
-                    style={{
-                      color:
-                        entry.reponse === "present"
-                          ? theme.accentue("discret")
-                          : theme.encre("discret"),
-                    }}
+        )}
+
+        {submitted ? (
+          <p
+            className={`ofp-display ${theme.displayStyleClass} mt-[clamp(2rem,7cqi,3rem)] text-[1.25rem]`}
+            style={{ color: ink }}
+          >
+            Merci, votre réponse est bien arrivée.
+          </p>
+        ) : (
+          <form
+            className="mt-[clamp(2rem,7cqi,3rem)] space-y-[clamp(1.25rem,5cqi,2rem)]"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!full) return;
+              const data = new FormData(e.currentTarget);
+              addEntry({
+                nom: String(data.get("nom") || "Invité"),
+                personnes: Number(data.get("personnes") || 1),
+                reponse: reponse ?? "present",
+                message: String(data.get("message") || "") || undefined,
+              });
+              setSubmitted(true);
+            }}
+          >
+            <Choix
+              etiquette="Votre présence"
+              options={REPONSES}
+              valeur={reponse}
+              onChange={setReponse}
+              disabled={!full}
+            />
+            <div className="grid gap-[clamp(1.25rem,5cqi,2rem)] @sm:grid-cols-[1fr_8rem]">
+              <Champ etiquette="Votre nom" name="nom" required autoComplete="name" disabled={!full} />
+              <Champ
+                etiquette="Personnes"
+                name="personnes"
+                type="number"
+                min={1}
+                defaultValue={1}
+                inputMode="numeric"
+                disabled={!full}
+              />
+            </div>
+            <ChampTexte etiquette="Un mot pour les mariés" name="message" rows={2} disabled={!full} />
+            <Bouton type="submit" large disabled={!full} className="mt-2">
+              Envoyer ma réponse
+            </Bouton>
+          </form>
+        )}
+
+        {full && entries.length > 0 && (
+          <div className="mt-[clamp(2.5rem,9cqi,4rem)]">
+            <Intitule>Ils ont répondu</Intitule>
+            <ul className="mt-4">
+              {entries
+                .slice(-5)
+                .reverse()
+                .map((entry) => (
+                  <li
+                    key={entry.id}
+                    className="flex items-baseline justify-between gap-4 border-b py-2.5 text-[0.9375rem]"
+                    style={{ borderColor: theme.derives.line, color: ink }}
                   >
-                    {entry.reponse === "present" ? `${entry.personnes} pers.` : "Absent·e"}
-                  </span>
-                </li>
-              ))}
-          </ul>
-        </div>
-      )}
+                    <span>{entry.nom}</span>
+                    <span
+                      className={`ofp-display ${theme.displayStyleClass}`}
+                      style={{
+                        color:
+                          entry.reponse === "present"
+                            ? theme.accentue("fort")
+                            : theme.encre("doux"),
+                      }}
+                    >
+                      {entry.reponse === "present"
+                        ? `${entry.personnes} ${entry.personnes > 1 ? "personnes" : "personne"}`
+                        : "Absent·e"}
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </SectionRoot>
   );
 }

@@ -1,20 +1,22 @@
 import { motifCount, type MotifProps } from "@/components/invitation/decor/motifs/types";
 
-export function Semis({ palette, density, stroke }: MotifProps) {
+/** Semis : des grains et de petites croix dispersés sur tout le cadre. */
+export function Semis({ palette, density, stroke, box }: MotifProps) {
   const { accent, accentSoft } = palette;
-  const grains = motifCount(60, density);
+  const surface = (box.width * box.height) / (400 * 700);
+  const grains = motifCount(Math.round(60 * surface), density);
 
   return (
     <g>
       {Array.from({ length: grains }).map((_, i) => {
-        const x = (i * 53) % 400;
-        const y = (i * 97) % 700;
+        const x = box.x + ((i * 53) % box.width);
+        const y = box.y + ((i * 97) % box.height);
         return i % 5 === 0 ? (
           <path
             key={i}
             d={`M${x - 5} ${y} h10 M${x} ${y - 5} v10`}
             stroke={accent}
-            strokeWidth={1.3 * stroke}
+            strokeWidth={1.2 * stroke}
             opacity="0.7"
           />
         ) : (
@@ -22,7 +24,7 @@ export function Semis({ palette, density, stroke }: MotifProps) {
             key={i}
             cx={x}
             cy={y}
-            r={i % 3 === 0 ? 2.2 : 1.4}
+            r={i % 3 === 0 ? 2 : 1.3}
             fill={accentSoft}
             opacity="0.85"
           />

@@ -27,34 +27,40 @@ const racineTemplates = fileURLToPath(new URL("../lib/templates/", import.meta.u
 const SECTIONS_OBLIGATOIRES = ["couverture", "annonce", "lieu", "rsvp", "contact"];
 const MOTIFS_MAX = 2;
 /**
- * Couples texte/fond rendus par les variantes de la passe 1, relevés dans leur
- * source. Une nouvelle variante qui introduit un couple inédit doit l'ajouter
+ * Couples texte/fond rendus par les variantes de la passe 1 sous la direction
+ * artistique (docs/direction-artistique.md), relevés dans leur source. Une nouvelle variante qui introduit un couple inédit doit l'ajouter
  * ici, sinon elle n'est pas couverte.
  */
 const COUPLES = [
-  { role: "couverture · surtitre", texte: "ink", niveau: "discret", fond: "paper", px: 12 },
-  { role: "couverture · prénoms", texte: "accent", niveau: "fort", fond: "paper", px: 60 },
-  { role: "couverture · esperluette", texte: "ink", niveau: "discret", fond: "paper", px: 18 },
-  { role: "couverture · date", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
-  { role: "annonce · citation", texte: "ink", niveau: "fort", fond: "paper", px: 24 },
-  { role: "intitulé de section", texte: "accent", niveau: "fort", fond: "paper", px: 10.4 },
-  { role: "programme · heure", texte: "ink", niveau: "discret", fond: "paper", px: 12 },
+  { role: "couverture · surtitre", texte: "ink", niveau: "doux", fond: "paper", px: 11 },
+  { role: "couverture · prénoms", texte: "ink", niveau: "fort", fond: "paper", px: 44 },
+  { role: "couverture · esperluette", texte: "accent", niveau: "fort", fond: "paper", px: 18 },
+  { role: "couverture · pied (date, ville)", texte: "ink", niveau: "doux", fond: "paper", px: 11 },
+  { role: "portail · ouvrir", texte: "ink", niveau: "fort", fond: "paper", px: 11 },
+  { role: "annonce · citation", texte: "ink", niveau: "fort", fond: "paper", px: 20 },
+  { role: "intitulé de section", texte: "accent", niveau: "fort", fond: "paper", px: 11 },
+  { role: "programme · heure", texte: "ink", niveau: "doux", fond: "paper", px: 11 },
   { role: "programme · étape", texte: "ink", niveau: "fort", fond: "paper", px: 18 },
+  { role: "programme · lieu d'étape", texte: "ink", niveau: "doux", fond: "paper", px: 15 },
   { role: "lieu · nom", texte: "ink", niveau: "fort", fond: "paper", px: 24 },
-  { role: "lieu · ville", texte: "ink", niveau: "discret", fond: "paper", px: 14 },
-  { role: "lieu · itinéraires", texte: "ink", niveau: "fort", fond: "paper", px: 12 },
-  { role: "lieu · dress code", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
-  { role: "rsvp · compteur", texte: "ink", niveau: "discret", fond: "paper", px: 14 },
-  { role: "rsvp · encart aperçu", texte: "ink", niveau: "discret", fond: "paper", px: 9.6 },
-  { role: "rsvp · champs", texte: "ink", niveau: "fort", fond: "paper", px: 14 },
-  { role: "rsvp · bouton présent", texte: "paper", niveau: "fort", fond: "accent", px: 14 },
-  { role: "rsvp · bouton absent", texte: "paper", niveau: "fort", fond: "ink", px: 14 },
-  { role: "rsvp · envoyer", texte: "paper", niveau: "fort", fond: "ink", px: 14 },
-  { role: "rsvp · titre réponses", texte: "ink", niveau: "discret", fond: "paper", px: 12 },
-  { role: "rsvp · réponse présente", texte: "accent", niveau: "discret", fond: "paper", px: 14 },
-  { role: "cagnotte · texte", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
-  { role: "cagnotte · bouton", texte: "ink", niveau: "fort", fond: "paper", px: 14 },
-  { role: "contact · signature", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
+  { role: "lieu · ville", texte: "ink", niveau: "doux", fond: "paper", px: 11 },
+  { role: "lieu · itinéraires", texte: "ink", niveau: "fort", fond: "paper", px: 15 },
+  { role: "lieu · tenue", texte: "ink", niveau: "fort", fond: "paper", px: 20 },
+  { role: "rsvp · question", texte: "ink", niveau: "fort", fond: "paper", px: 24 },
+  { role: "rsvp · compteur", texte: "ink", niveau: "doux", fond: "paper", px: 11 },
+  { role: "rsvp · étiquette de champ", texte: "ink", niveau: "doux", fond: "paper", px: 11 },
+  { role: "rsvp · choix et champs", texte: "ink", niveau: "fort", fond: "paper", px: 16 },
+  { role: "rsvp · envoyer", texte: "paper", niveau: "fort", fond: "ink", px: 11 },
+  { role: "rsvp · réponse reçue", texte: "ink", niveau: "fort", fond: "paper", px: 15 },
+  { role: "rsvp · réponse présente", texte: "accent", niveau: "fort", fond: "paper", px: 15 },
+  { role: "rsvp · réponse absente", texte: "ink", niveau: "doux", fond: "paper", px: 15 },
+  { role: "cagnotte · texte", texte: "ink", niveau: "fort", fond: "paper", px: 17 },
+  { role: "cagnotte · bouton contour", texte: "ink", niveau: "fort", fond: "paper", px: 11 },
+  { role: "contact · prénoms", texte: "ink", niveau: "fort", fond: "paper", px: 24 },
+  { role: "contact · esperluette", texte: "accent", niveau: "fort", fond: "paper", px: 24 },
+  { role: "contact · repère", texte: "ink", niveau: "doux", fond: "paper", px: 11 },
+  { role: "contact · question", texte: "ink", niveau: "doux", fond: "paper", px: 15 },
+  { role: "barre d'ancres", texte: "ink", niveau: "fort", fond: "paper", px: 11 },
 ];
 
 /** Doit rester aligné sur `opacitesSouhaitees` de lib/theme/tokens.ts. */

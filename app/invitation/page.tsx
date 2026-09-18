@@ -8,6 +8,7 @@ import { demoDraft } from "@/lib/data/demoDraft";
 import { resolveOpening } from "@/lib/motion/opening";
 import { useStudioStore } from "@/lib/store/useStudioStore";
 import { resolveTemplate } from "@/lib/templates";
+import { deriverPalette } from "@/lib/theme/palette";
 
 export default function InvitationPage() {
   const { draft } = useStudioStore();
@@ -16,12 +17,10 @@ export default function InvitationPage() {
   const effectiveDraft = draft.designId ? draft : demoDraft;
   const template = resolveTemplate(effectiveDraft.designId);
   const opening = resolveOpening(template, effectiveDraft);
+  const { paperDeep } = deriverPalette(template.theme.palette);
 
   return (
-    <div
-      className="relative min-h-screen pb-24"
-      style={{ background: template.theme.palette.paper }}
-    >
+    <div className="relative min-h-screen" style={{ background: paperDeep }}>
       {!opened && (
         <OpeningGate
           template={template}

@@ -1,33 +1,54 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { deriverPalette } from "@/lib/theme/palette";
+import { ETIQUETTE, FEUILLE } from "@/lib/theme/tokens";
 import type { TemplateDefinition } from "@/lib/types";
 
-const items: { href: string; label: string; icon: string }[] = [
-  { href: "#programme", label: "Programme", icon: "◔" },
-  { href: "#lieu", label: "Lieu", icon: "⚲" },
-  { href: "#rsvp", label: "RSVP", icon: "✉" },
-  { href: "#cagnotte", label: "Cagnotte", icon: "♥" },
+const items: { href: string; label: string }[] = [
+  { href: "#programme", label: "Programme" },
+  { href: "#lieu", label: "Lieu" },
+  { href: "#rsvp", label: "Répondre" },
+  { href: "#cagnotte", label: "Cagnotte" },
 ];
 
+/**
+ * La barre d'ancres : des mots en petites capitales sur un filet, dans la
+ * largeur de la feuille. Pas d'icônes, une invitation n'a pas d'onglets.
+ * Elle n'apparaît qu'une fois la couverture dépassée : rien ne doit se
+ * poser sur la première page.
+ */
 export function ActionBar({ template }: { template: TemplateDefinition }) {
   const { ink, paper, accent } = template.theme.palette;
+  const { line } = deriverPalette(template.theme.palette);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const surveiller = () => setVisible(window.scrollY > window.innerHeight * 0.6);
+    surveiller();
+    window.addEventListener("scroll", surveiller, { passive: true });
+    return () => window.removeEventListener("scroll", surveiller);
+  }, []);
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-30 border-t backdrop-blur"
-      style={{ background: paper + "F2", borderColor: accent + "33" }}
+      aria-hidden={!visible}
+      className={`fixed inset-x-0 bottom-0 z-30 backdrop-blur-md transition-all duration-500 ${
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
+      }`}
+      style={{ background: `${paper}E6`, "--ofp-accent": accent } as React.CSSProperties}
     >
-      <div className="mx-auto flex max-w-md items-center justify-around py-2.5">
+      <div
+        className={`${FEUILLE} flex items-center justify-center gap-[clamp(1.25rem,5vw,3rem)] border-t py-3.5`}
+        style={{ borderColor: line }}
+      >
         {items.map((item) => (
           <a
             key={item.href}
             href={item.href}
-            className="flex min-w-[64px] flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[0.6rem] uppercase tracking-wide transition hover:opacity-70"
+            className={`${ETIQUETTE} transition-colors hover:text-(--ofp-accent)`}
             style={{ color: ink }}
           >
-            <span className="text-base" style={{ color: accent }}>
-              {item.icon}
-            </span>
             {item.label}
           </a>
         ))}
