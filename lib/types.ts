@@ -1,3 +1,14 @@
+import type { AnnonceVariants } from "@/lib/sections/annonce";
+import type { CagnotteVariants } from "@/lib/sections/cagnotte";
+import type { ContactVariants } from "@/lib/sections/contact";
+import type { CouvertureVariants } from "@/lib/sections/couverture";
+import type { DresscodeVariants } from "@/lib/sections/dresscode";
+import type { FaqVariants } from "@/lib/sections/faq";
+import type { GalerieVariants } from "@/lib/sections/galerie";
+import type { LieuVariants } from "@/lib/sections/lieu";
+import type { ProgrammeVariants } from "@/lib/sections/programme";
+import type { RsvpVariants } from "@/lib/sections/rsvp";
+
 /* ------------------------------------------------------------------ *
  * Couche 0 — Contenu
  *
@@ -104,48 +115,25 @@ export interface ThemeTokens {
 /* ------------------------------------------------------------------ *
  * Couche 2 — Composition
  *
- * `SectionVariantRegistry` est la source unique : elle associe à chaque
- * type de section ses variantes et, pour chacune, ses options. Ajouter
- * une variante = ajouter une ligne ici, un composant, et son entrée
- * dans le registre de composants du moteur.
- *
- * Toutes les options doivent être facultatives : le moteur rend une
- * variante sans `options` déclarées.
+ * `SectionVariantRegistry` associe à chaque type de section ses variantes
+ * et, pour chacune, ses options. Le contenu de chaque entrée vit dans
+ * `lib/sections/<type>.ts` : ce fichier-ci ne change que si un TYPE de
+ * section apparaît, jamais quand une variante s'ajoute. C'est ce qui
+ * permet d'écrire les variantes de plusieurs types en parallèle sans
+ * jamais toucher au même fichier.
  * ------------------------------------------------------------------ */
 
-/** Variante sans réglage : `options` n'accepte alors que l'objet vide. */
-export type SansOptions = Record<string, never>;
-
-export interface LieuCentreSimpleOptions {
-  /** Services d'itinéraire proposés sous l'adresse. */
-  itineraires?: readonly string[];
-}
-
 export interface SectionVariantRegistry {
-  couverture: {
-    "plein-cadre-centre": SansOptions;
-  };
-  annonce: {
-    "citation-centree": SansOptions;
-  };
-  programme: {
-    "timeline-verticale": SansOptions;
-  };
-  lieu: {
-    "centre-simple": LieuCentreSimpleOptions;
-  };
-  galerie: Record<never, never>;
-  dresscode: Record<never, never>;
-  rsvp: {
-    "formulaire-centre": SansOptions;
-  };
-  cagnotte: {
-    "bloc-centre": SansOptions;
-  };
-  faq: Record<never, never>;
-  contact: {
-    "signature-centree": SansOptions;
-  };
+  couverture: CouvertureVariants;
+  annonce: AnnonceVariants;
+  programme: ProgrammeVariants;
+  lieu: LieuVariants;
+  galerie: GalerieVariants;
+  dresscode: DresscodeVariants;
+  rsvp: RsvpVariants;
+  cagnotte: CagnotteVariants;
+  faq: FaqVariants;
+  contact: ContactVariants;
 }
 
 export type SectionType = keyof SectionVariantRegistry;
