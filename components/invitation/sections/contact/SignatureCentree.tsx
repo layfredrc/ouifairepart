@@ -6,7 +6,6 @@ import { SectionLabel } from "@/components/invitation/sections/shared/SectionLab
 
 export function SignatureCentree() {
   const { draft, theme } = useSection();
-  const { ink } = theme.palette;
   const { full } = theme;
 
   return (
@@ -14,7 +13,7 @@ export function SignatureCentree() {
       <SectionLabel>Une question&nbsp;?</SectionLabel>
       <p
         className={`mt-3 ${full ? "text-sm" : "text-[0.6rem]"}`}
-        style={{ color: ink, opacity: 0.65 }}
+        style={{ color: theme.encre("doux") }}
       >
         {draft.prenom1 || "Prénom"} &amp; {draft.prenom2 || "Prénom"} — répondent
         avec plaisir avant le grand jour.
