@@ -45,7 +45,7 @@ export function Colophon() {
               className={`ofp-body mt-3 uppercase tracking-[0.25em] ${
                 full ? "text-xs" : "text-[0.5rem]"
               }`}
-              style={{ color: ink, opacity: 0.7 }}
+              style={{ color: theme.encre("doux") }}
             >
               {meta.map((item, i) => (
                 <span key={item}>
@@ -66,7 +66,7 @@ export function Colophon() {
           </p>
           <p
             className={`mt-1.5 ${full ? "text-sm" : "text-[0.6rem]"}`}
-            style={{ color: ink, opacity: 0.7 }}
+            style={{ color: theme.encre("doux") }}
           >
             Nous y répondons avec plaisir avant le grand jour.
           </p>

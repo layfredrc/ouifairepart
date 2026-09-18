@@ -70,12 +70,12 @@ export function DeuxTemps() {
   const champClass = `w-full ${champBase}`;
   const champStyle = { borderColor: `${accent}66`, color: ink, outlineColor: accent };
   const etiquetteClass = "ofp-body block text-[0.65rem] uppercase tracking-[0.2em]";
-  const etiquetteStyle = { color: ink, opacity: 0.7 };
+  const etiquetteStyle = { color: theme.encre("doux") };
 
   const indicateur = (numero: 1 | 2) => (
     <p
       className={`ofp-body uppercase tracking-[0.25em] ${full ? "text-[0.65rem]" : "text-[0.5rem]"}`}
-      style={{ color: ink, opacity: 0.7 }}
+      style={{ color: theme.encre("doux") }}
     >
       Étape {numero} sur 2
     </p>
@@ -87,7 +87,7 @@ export function DeuxTemps() {
       {draft.compteurPublic && (
         <p
           className={`mt-3 ${full ? "text-sm" : "text-[0.6rem]"}`}
-          style={{ color: ink, opacity: 0.7 }}
+          style={{ color: theme.encre("doux") }}
         >
           {totalPresent} personne{totalPresent > 1 ? "s" : ""} déjà annoncée
           {totalPresent > 1 ? "s" : ""}
@@ -107,7 +107,7 @@ export function DeuxTemps() {
               Non, hélas
             </span>
           </div>
-          <p className="mt-4 text-[0.6rem]" style={{ color: ink, opacity: 0.55 }}>
+          <p className="mt-4 text-[0.6rem]" style={{ color: theme.encre("discret") }}>
             Aperçu — le formulaire RSVP est actif sur la page publiée.
           </p>
         </div>
@@ -205,7 +205,7 @@ export function DeuxTemps() {
                         className={`w-20 text-center ${champBase}`}
                         style={champStyle}
                       />
-                      <span className="text-sm" style={{ color: ink, opacity: 0.7 }}>
+                      <span className="text-sm" style={{ color: theme.encre("doux") }}>
                         personne{personnes > 1 ? "s" : ""}
                       </span>
                     </div>
@@ -245,7 +245,7 @@ export function DeuxTemps() {
               <p className={questionClass} style={{ color: ink }}>
                 Merci{nom.trim() ? `, ${nom.trim()}` : ""}.
               </p>
-              <p className="text-sm" style={{ color: ink, opacity: 0.7 }}>
+              <p className="text-sm" style={{ color: theme.encre("doux") }}>
                 {reponse === "present"
                   ? "Votre présence est notée, à très vite."
                   : "Votre réponse est bien enregistrée, vous nous manquerez."}

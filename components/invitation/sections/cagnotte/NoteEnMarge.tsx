@@ -45,7 +45,7 @@ export function NoteEnMarge() {
         </div>
 
         <div className={`${full ? "mt-3 text-sm md:mt-0" : "mt-2 text-[0.6rem]"}`} style={{ color: ink }}>
-          <p style={{ opacity: 0.8 }}>
+          <p style={{ color: theme.encre("doux") }}>
             Votre présence est notre plus beau cadeau. Si vous souhaitez toutefois
             participer à notre voyage de noces, une cagnotte est ouverte à cette adresse&nbsp;:
           </p>
@@ -69,7 +69,7 @@ export function NoteEnMarge() {
             </button>
           </p>
 
-          <p className={`mt-6 ${full ? "text-sm" : "text-[0.6rem]"}`} style={{ opacity: 0.8 }}>
+          <p className={`mt-6 ${full ? "text-sm" : "text-[0.6rem]"}`} style={{ color: theme.encre("doux") }}>
             — {nom1} &amp; {nom2}
           </p>
         </div>

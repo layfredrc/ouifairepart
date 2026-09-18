@@ -37,7 +37,7 @@ export function FormulaireEncadre({
   const champClass = `w-full ${theme.radius.champ} border px-3.5 py-2.5 text-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-2`;
   const champStyle = { borderColor: `${accent}55`, background: paper, color: ink, outlineColor: accent };
   const etiquetteClass = "ofp-body block text-[0.65rem] uppercase tracking-[0.2em]";
-  const etiquetteStyle = { color: ink, opacity: 0.7 };
+  const etiquetteStyle = { color: theme.encre("doux") };
 
   const entete = (
     <div
@@ -62,7 +62,7 @@ export function FormulaireEncadre({
   const pied = draft.compteurPublic && (
     <p
       className={`border-t ${full ? "px-7 py-4 text-xs" : "px-4 py-3 text-[0.55rem]"}`}
-      style={{ borderColor: `${accent}33`, color: ink, opacity: 0.7 }}
+      style={{ borderColor: `${accent}33`, color: theme.encre("doux") }}
     >
       {totalPresent} personne{totalPresent > 1 ? "s" : ""} déjà annoncée
       {totalPresent > 1 ? "s" : ""}
@@ -97,7 +97,7 @@ export function FormulaireEncadre({
         {!full ? (
           <p
             className="px-4 py-5 text-center text-[0.6rem]"
-            style={{ color: ink, opacity: 0.55 }}
+            style={{ color: theme.encre("discret") }}
           >
             Aperçu — le formulaire RSVP est actif sur la page publiée.
           </p>
