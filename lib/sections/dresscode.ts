@@ -16,10 +16,24 @@ export interface DresscodeCartonEncadreOptions {
   fond?: "papier" | "decor";
 }
 
+export interface DresscodeManchetteOptions {
+  /** Intitulé de la colonne de marge. Par défaut : « Dress code ». */
+  intitule?: string;
+  /** Côté de la marge ; le texte se cale du côté opposé. */
+  marge?: "gauche" | "droite";
+  /** Filets pleine largeur au-dessus et au-dessous. Par défaut : oui. */
+  filets?: boolean;
+}
+
 export interface DresscodeVariants {
   /**
    * Le carton glissé dans l'enveloppe : un petit cadre double, centré,
    * refermé sur lui-même, la consigne en display au milieu.
    */
   "carton-encadre": DresscodeCartonEncadreOptions;
+  /**
+   * La manchette de magazine : composition ouverte et asymétrique, filets
+   * pleine largeur, intitulé en marge, consigne au fer à gauche.
+   */
+  manchette: DresscodeManchetteOptions;
 }
