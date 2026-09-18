@@ -66,7 +66,7 @@ export function CartesEmpilees({
                   className={`ofp-display absolute italic tabular-nums ${
                     full ? "right-5 top-4 text-sm" : "right-3 top-2.5 text-[0.6rem]"
                   }`}
-                  style={{ color: ink, opacity: 0.75 }}
+                  style={{ color: theme.encre("fort") }}
                 >
                   {String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;
                   {String(total).padStart(2, "0")}
@@ -81,7 +81,7 @@ export function CartesEmpilees({
               {step.lieu && (
                 <p
                   className={`ofp-body mt-2 ${full ? "text-sm" : "text-[0.65rem]"}`}
-                  style={{ color: ink, opacity: 0.75 }}
+                  style={{ color: theme.encre("fort") }}
                 >
                   {step.lieu}
                 </p>

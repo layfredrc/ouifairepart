@@ -24,7 +24,7 @@ const ITINERAIRES_PAR_DEFAUT = ["Google Maps", "Apple Plans", "Waze"] as const;
  */
 export function DuoLieux({ options }: SectionVariantProps<"lieu", "duo-lieux">) {
   const { draft, theme } = useSection();
-  const { accent, ink } = theme.palette;
+  const { accent } = theme.palette;
   const { full } = theme;
   const itineraires = options.itineraires ?? ITINERAIRES_PAR_DEFAUT;
   const ornement = options.ornement ?? "losange";
@@ -71,7 +71,7 @@ export function DuoLieux({ options }: SectionVariantProps<"lieu", "duo-lieux">) 
       {dressCode && draft.dressCode && (
         <p
           className={`text-center ${full ? "mt-10 text-sm" : "mt-5 text-[0.65rem]"}`}
-          style={{ color: ink, opacity: 0.75 }}
+          style={{ color: theme.encre("doux") }}
         >
           Dress code — {draft.dressCode}
         </p>
@@ -100,7 +100,7 @@ function Volet({
       {etapes.length > 0 && (
         <p
           className={`ofp-body uppercase tracking-[0.25em] ${full ? "text-xs" : "text-[0.55rem]"}`}
-          style={{ color: ink, opacity: 0.75 }}
+          style={{ color: theme.encre("doux") }}
         >
           {etapes.join(" · ")}
         </p>
@@ -112,7 +112,7 @@ function Volet({
         {lieu.nom || "Lieu à confirmer"}
       </p>
       {lieu.ville && (
-        <p className={`mt-1 ${full ? "text-sm" : "text-[0.65rem]"}`} style={{ color: ink, opacity: 0.75 }}>
+        <p className={`mt-1 ${full ? "text-sm" : "text-[0.65rem]"}`} style={{ color: theme.encre("doux") }}>
           {lieu.ville}
         </p>
       )}

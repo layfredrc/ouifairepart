@@ -52,7 +52,7 @@ export function FriseHorizontale({
                 className={`ofp-body px-3 uppercase tracking-[0.25em] ${
                   full ? "text-xs" : "text-[0.55rem]"
                 }`}
-                style={{ color: ink, opacity: 0.75 }}
+                style={{ color: theme.encre("doux") }}
               >
                 {step.heure || " "}
               </p>
@@ -87,7 +87,7 @@ export function FriseHorizontale({
               {step.lieu && (
                 <p
                   className={`ofp-body mt-1 px-3 ${full ? "text-xs" : "text-[0.55rem]"}`}
-                  style={{ color: ink, opacity: 0.75 }}
+                  style={{ color: theme.encre("doux") }}
                 >
                   {step.lieu}
                 </p>

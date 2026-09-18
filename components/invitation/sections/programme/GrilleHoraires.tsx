@@ -64,7 +64,7 @@ export function GrilleHoraires({
                   className={`ofp-body mt-1 uppercase tracking-[0.18em] ${
                     full ? "text-xs" : "text-[0.55rem]"
                   }`}
-                  style={{ color: ink, opacity: 0.75 }}
+                  style={{ color: theme.encre("doux") }}
                 >
                   {step.lieu}
                 </p>

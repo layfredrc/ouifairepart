@@ -60,7 +60,7 @@ export function CarteEncadree({ options }: SectionVariantProps<"lieu", "carte-en
           {draft.ville && (
             <p
               className={`ofp-body mt-1 uppercase tracking-[0.25em] ${full ? "text-xs" : "text-[0.55rem]"}`}
-              style={{ color: ink, opacity: 0.75 }}
+              style={{ color: theme.encre("doux") }}
             >
               {draft.ville}
             </p>
@@ -83,7 +83,7 @@ export function CarteEncadree({ options }: SectionVariantProps<"lieu", "carte-en
       {dressCode && draft.dressCode && (
         <p
           className={`text-center ${full ? "mt-8 text-sm" : "mt-4 text-[0.65rem]"}`}
-          style={{ color: ink, opacity: 0.75 }}
+          style={{ color: theme.encre("doux") }}
         >
           Dress code — {draft.dressCode}
         </p>
