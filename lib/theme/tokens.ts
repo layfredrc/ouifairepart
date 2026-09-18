@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { couleurAttenuee } from "@/lib/theme/contraste";
 import { fontStacks } from "@/lib/theme/fonts";
 import type { Palette, RadiusToken, Rhythm, ThemeTokens, TypeScale } from "@/lib/types";
 
@@ -11,6 +12,19 @@ export type TypeRole = "prenoms" | "citation" | "lieu" | "intitule";
 export type SpaceStep = "aucun" | "serre" | "normal" | "ample" | "pied";
 
 export type RadiusRole = "champ" | "carte" | "pastille";
+
+/**
+ * Niveau d'atténuation d'un texte secondaire. Le thème le traduit en
+ * couleur opaque : une variante ne dilue jamais un texte à la main, sinon
+ * le contraste dépend de la palette et §5 n'est plus tenable.
+ */
+export type NiveauTexte = "fort" | "doux" | "discret";
+
+const opacitesSouhaitees: Record<NiveauTexte, number> = {
+  fort: 1,
+  doux: 0.7,
+  discret: 0.6,
+};
 
 type ByMode = { full: string; phone: string };
 
@@ -86,6 +100,10 @@ export interface ResolvedTheme {
   fontVars: CSSProperties;
   displayStyleClass: string;
   radius: Record<RadiusRole, string>;
+  /** Encre atténuée, remontée jusqu'au seuil de contraste sur le papier. */
+  encre: (niveau: NiveauTexte) => string;
+  /** Accent atténué, même garantie. */
+  accentue: (niveau: NiveauTexte) => string;
   /** Épaisseur de trait du décor, en unités du viewBox des motifs. */
   stroke: (reference: number) => number;
   type: (role: TypeRole) => string;
@@ -94,7 +112,7 @@ export interface ResolvedTheme {
 }
 
 export function resolveTheme(tokens: ThemeTokens, mode: InvitationMode): ResolvedTheme {
-  const { typography } = tokens;
+  const { typography, palette } = tokens;
   const fontVars = {
     "--ofp-display": fontStacks[typography.display].family,
     "--ofp-body": fontStacks[typography.body].family,
@@ -102,12 +120,16 @@ export function resolveTheme(tokens: ThemeTokens, mode: InvitationMode): Resolve
 
   return {
     tokens,
-    palette: tokens.palette,
+    palette,
     mode,
     full: mode === "full",
     fontVars,
     displayStyleClass: displayStyleClasses[typography.displayStyle],
     radius: radiusClasses[tokens.radius],
+    encre: (niveau) =>
+      couleurAttenuee(palette.ink, palette.paper, opacitesSouhaitees[niveau]),
+    accentue: (niveau) =>
+      couleurAttenuee(palette.accent, palette.paper, opacitesSouhaitees[niveau]),
     stroke: (reference) => reference * tokens.stroke,
     type: (role) => typeScale[typography.scale][role][mode],
     space: (step) => sectionSpacing[tokens.rhythm][step][mode],

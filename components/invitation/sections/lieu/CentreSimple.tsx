@@ -19,7 +19,7 @@ export function CentreSimple({ options }: SectionVariantProps<"lieu", "centre-si
       <p className={`mt-4 ofp-display ${theme.type("lieu")}`} style={{ color: ink }}>
         {draft.lieu || "Lieu à confirmer"}
       </p>
-      <p className="mt-1 text-sm" style={{ color: ink, opacity: 0.6 }}>
+      <p className="mt-1 text-sm" style={{ color: theme.encre("discret") }}>
         {draft.ville}
       </p>
       <div className="mt-5 flex flex-wrap justify-center gap-2">
@@ -38,7 +38,7 @@ export function CentreSimple({ options }: SectionVariantProps<"lieu", "centre-si
       {draft.dressCode && (
         <p
           className={`mt-8 ${full ? "text-sm" : "text-[0.65rem]"}`}
-          style={{ color: ink, opacity: 0.65 }}
+          style={{ color: theme.encre("doux") }}
         >
           Dress code — {draft.dressCode}
         </p>
