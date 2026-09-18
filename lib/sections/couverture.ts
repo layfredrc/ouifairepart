@@ -12,7 +12,13 @@ export interface CouvertureEditorialBasGaucheOptions {
   partDecor?: "moitie" | "deux-tiers";
 }
 
+export interface CouvertureDiptyqueOptions {
+  /** Côté du panneau de décor quand les deux panneaux tiennent côte à côte. */
+  coteArt?: "gauche" | "droite";
+}
+
 export interface CouvertureVariants {
   "plein-cadre-centre": SansOptions;
   "editorial-bas-gauche": CouvertureEditorialBasGaucheOptions;
+  diptyque: CouvertureDiptyqueOptions;
 }
