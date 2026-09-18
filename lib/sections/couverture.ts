@@ -17,8 +17,14 @@ export interface CouvertureDiptyqueOptions {
   coteArt?: "gauche" | "droite";
 }
 
+export interface CouvertureMedaillonOptions {
+  /** Filet du cartouche : double (filet + filet intérieur) ou simple. */
+  bordure?: "double" | "simple";
+}
+
 export interface CouvertureVariants {
   "plein-cadre-centre": SansOptions;
   "editorial-bas-gauche": CouvertureEditorialBasGaucheOptions;
   diptyque: CouvertureDiptyqueOptions;
+  medaillon: CouvertureMedaillonOptions;
 }
