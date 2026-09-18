@@ -87,9 +87,9 @@ Contraintes : 100 % vectoriel et inline (pas d'images bitmap, c'est déjà un ac
 
 Trois mécanismes distincts, à ne pas confondre :
 
-**L'ouverture** — le moment signature, joué une fois. Quatre variantes maîtrisées : `voile` (un voile se lève), `enveloppe` (rabat qui s'ouvre), `volets` (deux panneaux qui s'écartent), `fondu-lent`. Durée maximale 1,2 s, toujours interruptible au clic. Le type `OpeningStyle` existant (`rideau | enveloppe | fondu`) est à étendre.
+**L'ouverture** — le moment signature, joué une fois. Quatre variantes maîtrisées : `voile` (un voile se lève), `enveloppe` (rabat qui s'ouvre), `volets` (deux panneaux qui s'écartent), `fondu-lent`. Durée maximale 1,2 s, toujours interruptible au clic. Le type `OpeningStyle` existant (`rideau | enveloppe | fondu`) est à étendre. Implémentée en timeline GSAP, qui orchestre dans le même objet le mouvement, la cascade sur les prénoms (SplitText) et le démarrage de la musique.
 
-**Les révélations au scroll** — déclarées par variante, pas codées dans chaque section : `{ kind: "fade-up" | "masque" | "cascade", stagger?: number }`.
+**Les révélations au scroll** — déclarées par variante, pas codées dans chaque section : `{ kind: "fade-up" | "masque" | "cascade", stagger?: number }`. Le moteur traduit cette déclaration en `ScrollTrigger`. Aucune section ne contient d'appel d'animation en dur.
 
 **L'intensité** — `sobre | normale | festive`, réglée par le couple, appliquée comme un multiplicateur global sur durée/distance/décalage. La logique actuelle de `motionProps()` est la bonne intuition, mais elle doit sortir du composant pour devenir une fonction du moteur.
 
@@ -161,10 +161,29 @@ Soit 28 composants de variantes. C'est le gros du travail, et c'est du travail p
 
 C'est la page que 100 % des invités ouvrent, en très grande majorité sur smartphone et souvent en 4G. Elle prime sur tout le reste du site.
 
-- **LCP < 2,0 s** sur Android milieu de gamme en 4G.
-- **JS de la page publique ≤ 60 ko gzip.** Framer Motion pèse à lui seul environ 50 ko : à ce budget il est disqualifié sur la route publique. Recommandation ferme — révélations au scroll en CSS piloté par un petit hook `IntersectionObserver`, et animation d'ouverture en Web Animations API. Framer Motion peut rester dans le Studio, qui n'a pas ces contraintes.
+**Pile d'animation retenue : GSAP + ScrollTrigger, plus un défilement lissé.** Poids réels mesurés (min + gzip) : GSAP 27,6 ko, ScrollTrigger 17,6 ko, ScrollSmoother 5,4 ko, SplitText 3,6 ko, Lenis 5,3 ko. Pour comparaison, l'usage actuel de Framer Motion (`motion.div`) coûte environ 39 ko. GSAP n'est donc pas gratuit — il coûte une dizaine de kilos de plus que l'existant, et une quarantaine de plus qu'une solution CSS maison. C'est un choix assumé : le produit se vend sur la qualité du mouvement, et c'est la seule page qui le justifie. GSAP est depuis 2025 entièrement gratuit, plugins Club inclus, usage commercial couvert.
+
+**La condition qui rend ce poids acceptable : l'amélioration progressive.** La page est rendue côté serveur et entièrement lisible sans JavaScript. GSAP est importé dynamiquement après le premier rendu, jamais dans le bundle partagé, jamais bloquant. Conséquence directe : le poids n'entre pas dans le LCP, il ne pèse que sur la bande passante et l'INP.
+
+**Corollaire non négociable sur le portail d'ouverture.** Le contenu de l'invitation est présent dans le DOM dès le rendu serveur et simplement masqué visuellement par le voile. Si le JavaScript échoue, est lent, ou est désactivé, le voile s'efface en CSS seul et l'invitation reste lisible. Une invitation de mariage qui affiche une page blanche à un invité est un échec produit total — c'est le scénario à rendre structurellement impossible, pas à tester.
+
+Le reste du budget :
+
+- **LCP < 2,0 s** sur Android milieu de gamme en 4G, mesuré sur la page publiée, pas en local.
+- **JS bloquant au premier rendu : zéro**, hors socle Next/React. Le socle seul dépasse déjà largement les 60 ko évoqués dans une version antérieure de ce document ; viser un total en kilo-octets n'avait pas de sens, seul compte ce qui bloque le rendu.
 - Décor SVG inline, aucune image bitmap, aucune police distante bloquante.
 - Sections hors écran non montées au premier rendu.
+- Framer Motion est retiré de la route publique et reste dans le Studio, qui n'a aucune de ces contraintes.
+
+### Défilement lissé
+
+Retenu, avec trois garde-fous :
+
+- **Desktop uniquement.** Sur mobile, le défilement natif iOS et Android est meilleur que tout ce qu'une librairie peut produire, et le lisser casse le masquage automatique de la barre d'adresse et dégrade l'INP. Or le mobile, c'est 100 % des invités. Lenis comme ScrollSmoother ne lissent pas le tactile par défaut : garder ce défaut.
+- **`prefers-reduced-motion: reduce` désactive complètement** le lissage, pas seulement les révélations.
+- **Recâbler les ancres.** La barre d'actions basse navigue par ancres (`#programme`, `#lieu`, `#rsvp`) : elles cessent de fonctionner sous défilement lissé si elles ne passent pas par le `scrollTo` de la librairie. C'est le premier bug que produira cette intégration.
+
+Si GSAP est adopté, prendre **ScrollSmoother** plutôt que Lenis : poids équivalent, mais intégration native avec ScrollTrigger, sans le pont manuel qu'exige Lenis pour synchroniser les deux boucles.
 
 ---
 
