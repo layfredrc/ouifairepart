@@ -2,7 +2,7 @@
 
 import { SectionRoot } from "@/components/invitation/engine/SectionRoot";
 import { useSection } from "@/components/invitation/engine/SectionScope";
-import type { SectionVariantProps } from "@/components/invitation/engine/registry";
+import type { SectionVariantProps } from "@/components/invitation/engine/variantTable";
 import { SectionLabel } from "@/components/invitation/sections/shared/SectionLabel";
 
 const ITINERAIRES_PAR_DEFAUT = ["Google Maps", "Apple Plans", "Waze"] as const;
