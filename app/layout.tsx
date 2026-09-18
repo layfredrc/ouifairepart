@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
+import { fontVariablesClassName } from "@/lib/theme/fonts";
 import "./globals.css";
-
-// Le prototype tourne dans un environnement sans accès garanti à Google
-// Fonts : on s'appuie donc sur des piles de polices système soignées
-// (serif éditoriale / sans-serif géométrique) plutôt que sur next/font.
-// En production, ces piles seraient remplacées par des polices
-// licenciées/auto-hébergées cohérentes avec le design system.
 
 export const metadata: Metadata = {
   title: "OuiFairePart — Faire-part de mariage digitaux",
@@ -19,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className="h-full antialiased">
+    <html lang="fr" className={`h-full antialiased ${fontVariablesClassName}`}>
       <body className="min-h-full flex flex-col bg-paper text-ink">
         {children}
       </body>

@@ -1,6 +1,7 @@
 "use client";
 
-import { collections, designs } from "@/lib/data/designs";
+import { collections } from "@/lib/data/collections";
+import { templates } from "@/lib/templates";
 import { useStudioStore } from "@/lib/store/useStudioStore";
 import type { AnimationIntensity, OpeningStyle } from "@/lib/types";
 import { Header } from "@/components/studio/steps/StepNames";
@@ -33,22 +34,22 @@ export function StepStyle() {
             <div key={collection.id}>
               <p className="text-xs text-ink-soft">{collection.name}</p>
               <div className="mt-1.5 flex flex-wrap gap-2">
-                {designs
-                  .filter((d) => d.collectionId === collection.id)
-                  .map((d) => {
-                    const selected = d.id === draft.designId;
+                {templates
+                  .filter((t) => t.collectionId === collection.id)
+                  .map((t) => {
+                    const selected = t.id === draft.designId;
                     return (
                       <button
-                        key={d.id}
-                        title={d.name}
+                        key={t.id}
+                        title={t.name}
                         onClick={() => {
-                          setField("designId", d.id);
-                          setField("paletteId", d.palette.id);
+                          setField("designId", t.id);
+                          setField("paletteId", t.theme.palette.id);
                         }}
                         className={`h-9 w-9 rounded-full border-2 transition ${
                           selected ? "border-ink scale-110" : "border-transparent hover:border-line"
                         }`}
-                        style={{ background: d.palette.accent }}
+                        style={{ background: t.theme.palette.accent }}
                       />
                     );
                   })}

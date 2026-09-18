@@ -5,7 +5,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { NameInput } from "@/components/catalogue/NameInput";
 import { DesignCard } from "@/components/catalogue/DesignCard";
-import { collections, designs } from "@/lib/data/designs";
+import { collections } from "@/lib/data/collections";
+import { templates } from "@/lib/templates";
 import type { Ambiance, StyleFamily } from "@/lib/types";
 
 const styles: StyleFamily[] = [
@@ -41,14 +42,13 @@ export default function CataloguePage() {
   };
 
   const filtered = useMemo(() => {
-    return designs.filter((design) => {
-      const collection = collections.find((c) => c.id === design.collectionId)!;
-      if (activeStyles.size && !activeStyles.has(collection.style)) return false;
-      if (activeAmbiances.size && !activeAmbiances.has(collection.ambiance))
+    return templates.filter((template) => {
+      if (activeStyles.size && !activeStyles.has(template.style)) return false;
+      if (activeAmbiances.size && !activeAmbiances.has(template.ambiance))
         return false;
       if (
         activeFeatures.size &&
-        ![...activeFeatures].every((f) => design.features[f])
+        ![...activeFeatures].every((f) => template.features[f])
       )
         return false;
       return true;
@@ -65,7 +65,7 @@ export default function CataloguePage() {
         <div className="container-page py-12">
           <p className="text-xs uppercase tracking-[0.3em] text-accent">Catalogue</p>
           <h1 className="mt-2 font-display text-3xl md:text-4xl">
-            {collections.length} collections, {designs.length} déclinaisons
+            {collections.length} collections, {templates.length} déclinaisons
           </h1>
           <p className="mt-2 max-w-xl text-sm text-ink-soft">
             Chaque collection propose plusieurs palettes. Essayez, comparez,
@@ -121,8 +121,8 @@ export default function CataloguePage() {
                 </p>
               ) : (
                 <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                  {filtered.map((design) => (
-                    <DesignCard key={design.id} design={design} />
+                  {filtered.map((template) => (
+                    <DesignCard key={template.id} template={template} />
                   ))}
                 </div>
               )}
