@@ -71,7 +71,7 @@ export function Medaillon({
           </p>
           <p
             className={`ofp-display ${full ? "my-3 text-2xl" : "my-1 text-base"}`}
-            style={{ color: ink, opacity: 0.75 }}
+            style={{ color: theme.encre("discret") }}
           >
             &amp;
           </p>
@@ -88,7 +88,7 @@ export function Medaillon({
               />
               <p
                 className={`ofp-display ${theme.displayStyleClass} ${full ? "mt-4 text-lg" : "mt-2 text-xs"}`}
-                style={{ color: ink, opacity: 0.75 }}
+                style={{ color: theme.encre("doux") }}
               >
                 {ville}
               </p>
