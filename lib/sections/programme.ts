@@ -14,6 +14,13 @@ export interface ProgrammeCartesEmpileesOptions {
   quinconce?: boolean;
 }
 
+export interface ProgrammeFriseHorizontaleOptions {
+  /** Aimante le défilement latéral sur chaque étape. Vrai par défaut. */
+  aimant?: boolean;
+  /** Marqueur posé sur la frise : un point plein, ou le numéro de l'étape. `points` par défaut. */
+  marqueurs?: "points" | "numeros";
+}
+
 /**
  * Variantes de programme et leurs options.
  *
@@ -24,4 +31,5 @@ export interface ProgrammeVariants {
   "timeline-verticale": SansOptions;
   "grille-horaires": ProgrammeGrilleHorairesOptions;
   "cartes-empilees": ProgrammeCartesEmpileesOptions;
+  "frise-horizontale": ProgrammeFriseHorizontaleOptions;
 }
