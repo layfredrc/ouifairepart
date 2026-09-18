@@ -18,7 +18,7 @@ export function BlocCentre() {
       <SectionLabel>Cagnotte de mariage</SectionLabel>
       <p
         className={`mx-auto mt-3 max-w-sm ${full ? "text-sm" : "text-[0.6rem]"}`}
-        style={{ color: ink, opacity: 0.65 }}
+        style={{ color: theme.encre("doux") }}
       >
         Votre présence est le plus beau des cadeaux. Pour celles et ceux qui le
         souhaitent, une cagnotte est ouverte pour notre voyage de noces.

@@ -27,7 +27,7 @@ export function FormulaireCentre() {
       {draft.compteurPublic && (
         <p
           className={`mt-3 text-center ${full ? "text-sm" : "text-[0.6rem]"}`}
-          style={{ color: ink, opacity: 0.6 }}
+          style={{ color: theme.encre("discret") }}
         >
           {totalPresent} personne{totalPresent > 1 ? "s" : ""} déjà annoncée
           {totalPresent > 1 ? "s" : ""}
@@ -37,7 +37,7 @@ export function FormulaireCentre() {
       {!full ? (
         <div
           className={`mx-auto mt-4 max-w-sm ${theme.radius.carte} border px-4 py-5 text-center text-[0.6rem]`}
-          style={{ borderColor: `${accent}44`, color: ink, opacity: 0.55 }}
+          style={{ borderColor: `${accent}25`, color: theme.encre("discret") }}
         >
           Aperçu — le formulaire RSVP est actif sur la page publiée.
         </div>
@@ -123,7 +123,7 @@ export function FormulaireCentre() {
           className="mx-auto mt-10 max-w-sm border-t pt-6"
           style={{ borderColor: `${accent}33` }}
         >
-          <p className="text-xs uppercase tracking-widest" style={{ color: ink, opacity: 0.5 }}>
+          <p className="text-xs uppercase tracking-widest" style={{ color: theme.encre("discret") }}>
             Réponses reçues
           </p>
           <ul className="mt-3 space-y-2 text-sm">
@@ -139,8 +139,10 @@ export function FormulaireCentre() {
                   <span>{entry.nom}</span>
                   <span
                     style={{
-                      color: entry.reponse === "present" ? accent : ink,
-                      opacity: 0.6,
+                      color:
+                        entry.reponse === "present"
+                          ? theme.accentue("discret")
+                          : theme.encre("discret"),
                     }}
                   >
                     {entry.reponse === "present" ? `${entry.personnes} pers.` : "Absent·e"}
