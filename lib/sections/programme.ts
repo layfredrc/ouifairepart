@@ -7,6 +7,13 @@ export interface ProgrammeGrilleHorairesOptions {
   alignementHeures?: "droite" | "gauche";
 }
 
+export interface ProgrammeCartesEmpileesOptions {
+  /** Numérote chaque carte (01 / 04). Vrai par défaut. */
+  numerotation?: boolean;
+  /** Décale les cartes en quinconce pour l'effet de pile. Vrai par défaut. */
+  quinconce?: boolean;
+}
+
 /**
  * Variantes de programme et leurs options.
  *
@@ -16,4 +23,5 @@ export interface ProgrammeGrilleHorairesOptions {
 export interface ProgrammeVariants {
   "timeline-verticale": SansOptions;
   "grille-horaires": ProgrammeGrilleHorairesOptions;
+  "cartes-empilees": ProgrammeCartesEmpileesOptions;
 }
