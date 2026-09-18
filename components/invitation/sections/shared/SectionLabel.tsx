@@ -1,17 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useSection } from "@/components/invitation/engine/SectionScope";
+import { Intitule } from "@/components/invitation/sections/shared/Intitule";
 
+/** Ancien nom de l'intitulé centré, conservé pour les variantes existantes. */
 export function SectionLabel({ children }: { children: ReactNode }) {
-  const { theme } = useSection();
-
-  return (
-    <p
-      className="ofp-body text-center text-[0.65rem] uppercase tracking-[0.3em]"
-      style={{ color: theme.palette.accent }}
-    >
-      {children}
-    </p>
-  );
+  return <Intitule alignement="centre">{children}</Intitule>;
 }

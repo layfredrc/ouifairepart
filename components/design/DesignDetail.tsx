@@ -59,7 +59,7 @@ export function DesignDetail() {
           <PersonalizedPreview
             template={template}
             compact={false}
-            date="Samedi 12 septembre 2026"
+            date="2026-09-12"
           />
         </div>
 

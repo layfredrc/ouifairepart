@@ -3,46 +3,53 @@
 import { SectionRoot } from "@/components/invitation/engine/SectionRoot";
 import { useSection } from "@/components/invitation/engine/SectionScope";
 import type { SectionVariantProps } from "@/components/invitation/engine/variantTable";
-import { SectionLabel } from "@/components/invitation/sections/shared/SectionLabel";
+import { Intitule } from "@/components/invitation/sections/shared/Intitule";
+import { LiensItineraires } from "@/components/invitation/sections/shared/LiensItineraires";
+import { COLONNE, ETIQUETTE } from "@/lib/theme/tokens";
 
-const ITINERAIRES_PAR_DEFAUT = ["Google Maps", "Apple Plans", "Waze"] as const;
-
+/**
+ * Lieu centré : le nom du lieu en corps de titrage, la ville en petites
+ * capitales, les itinéraires en mots soulignés. La tenue, si elle est
+ * saisie, vient après un filet, avec son propre intitulé.
+ */
 export function CentreSimple({ options }: SectionVariantProps<"lieu", "centre-simple">) {
   const { draft, theme } = useSection();
-  const { accent, ink } = theme.palette;
-  const { full } = theme;
-  const itineraires = options.itineraires ?? ITINERAIRES_PAR_DEFAUT;
+  const { ink } = theme.palette;
 
   return (
-    <SectionRoot className={`text-center ${theme.gutter} ${theme.space("normal")}`}>
-      <SectionLabel>Lieu</SectionLabel>
-      <p className={`mt-4 ofp-display ${theme.type("lieu")}`} style={{ color: ink }}>
-        {draft.lieu || "Lieu à confirmer"}
-      </p>
-      <p className="mt-1 text-sm" style={{ color: theme.encre("discret") }}>
-        {draft.ville}
-      </p>
-      <div className="mt-5 flex flex-wrap justify-center gap-2">
-        {itineraires.map((label) => (
-          <a
-            key={label}
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className={`${theme.radius.pastille} border px-4 py-2 ${full ? "text-xs" : "text-[0.6rem]"}`}
-            style={{ borderColor: `${accent}66`, color: ink }}
-          >
-            {label}
-          </a>
-        ))}
-      </div>
-      {draft.dressCode && (
+    <SectionRoot className={`${theme.gutter} ${theme.space("normal")}`}>
+      <div className={`${COLONNE} text-center`}>
+        <Intitule alignement="centre">Lieu</Intitule>
         <p
-          className={`mt-8 ${full ? "text-sm" : "text-[0.65rem]"}`}
-          style={{ color: theme.encre("doux") }}
+          className={`ofp-display ${theme.type("lieu")} mt-[clamp(1.25rem,5cqi,2.25rem)] text-balance`}
+          style={{ color: ink }}
         >
-          Dress code — {draft.dressCode}
+          {draft.lieu || "Lieu à confirmer"}
         </p>
-      )}
+        {draft.ville && (
+          <p className={`${ETIQUETTE} mt-3`} style={{ color: theme.encre("doux") }}>
+            {draft.ville}
+          </p>
+        )}
+        <LiensItineraires liens={options.itineraires} className="mt-[clamp(1.25rem,5cqi,2rem)]" />
+
+        {draft.dressCode && (
+          <div
+            className="mt-[clamp(2rem,8cqi,3.5rem)] border-t pt-[clamp(1.25rem,5cqi,2rem)]"
+            style={{ borderColor: theme.derives.line }}
+          >
+            <p className={ETIQUETTE} style={{ color: theme.accentue("fort") }}>
+              Tenue
+            </p>
+            <p
+              className={`ofp-display ${theme.displayStyleClass} mt-2 text-[1.25rem] leading-snug text-balance`}
+              style={{ color: ink }}
+            >
+              {draft.dressCode}
+            </p>
+          </div>
+        )}
+      </div>
     </SectionRoot>
   );
 }

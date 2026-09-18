@@ -1,13 +1,14 @@
 "use client";
 
-import { DecorCanvas } from "@/components/invitation/decor/DecorCanvas";
+import { InvitationCanvas } from "@/components/invitation/InvitationCanvas";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
+import { demoDraft } from "@/lib/data/demoDraft";
 import { useCoupleStore } from "@/lib/store/useCoupleStore";
-import { themeFontVars } from "@/lib/theme/tokens";
 import type { TemplateDefinition } from "@/lib/types";
 
 interface PersonalizedPreviewProps {
   template: TemplateDefinition;
+  /** Date au format ISO ; sans elle, le pied de couverture ne montre que la ville. */
   date?: string;
   compact?: boolean;
   className?: string;
@@ -15,8 +16,9 @@ interface PersonalizedPreviewProps {
 
 /**
  * Composant transverse : consommé par le Catalogue, la Fiche détail et le
- * Studio. Le nom du couple vient du store global (persisté) et s'applique
- * en direct sur chaque template, sans compte ni sauvegarde serveur.
+ * Studio. Il rend la couverture du template par le moteur lui-même, avec
+ * les prénoms du couple : ce que le catalogue montre est exactement ce que
+ * la page publiée ouvrira, variante de couverture comprise.
  */
 export function PersonalizedPreview({
   template,
@@ -25,52 +27,19 @@ export function PersonalizedPreview({
   className,
 }: PersonalizedPreviewProps) {
   const { prenom1, prenom2 } = useCoupleStore();
-  const nom1 = prenom1 || "Prénom";
-  const nom2 = prenom2 || "Prénom";
-  const { palette } = template.theme;
-  const { accent, ink } = palette;
+  const draft = {
+    ...demoDraft,
+    designId: template.id,
+    paletteId: template.theme.palette.id,
+    prenom1: prenom1 || "Prénom",
+    prenom2: prenom2 || "Prénom",
+    dateMariage: date ?? "",
+    ville: date ? demoDraft.ville : "",
+  };
 
   return (
     <PhoneFrame compact={compact} className={className}>
-      <div className="relative h-full w-full" style={themeFontVars(template.theme)}>
-        <DecorCanvas
-          decor={template.decor}
-          palette={palette}
-          stroke={template.theme.stroke}
-          className="absolute inset-0 h-full w-full"
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-6 text-center">
-          <span
-            className="ofp-body text-[0.6rem] uppercase tracking-[0.3em]"
-            style={{ color: ink, opacity: 0.65 }}
-          >
-            Le mariage de
-          </span>
-          <span
-            className="ofp-display text-2xl italic leading-tight"
-            style={{ color: accent }}
-          >
-            {nom1}
-          </span>
-          <span className="ofp-display text-sm" style={{ color: ink, opacity: 0.7 }}>
-            &amp;
-          </span>
-          <span
-            className="ofp-display text-2xl italic leading-tight"
-            style={{ color: accent }}
-          >
-            {nom2}
-          </span>
-          {date && (
-            <span
-              className="ofp-body text-[0.65rem] uppercase tracking-[0.2em] mt-2"
-              style={{ color: ink, opacity: 0.6 }}
-            >
-              {date}
-            </span>
-          )}
-        </div>
-      </div>
+      <InvitationCanvas draft={draft} mode="phone" seulement={["couverture"]} />
     </PhoneFrame>
   );
 }

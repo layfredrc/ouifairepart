@@ -5,12 +5,14 @@ import { lookupVariant } from "@/components/invitation/engine/registry";
 import { usePrefersReducedMotion } from "@/lib/motion/usePrefersReducedMotion";
 import { revealMotion } from "@/lib/motion/reveal";
 import { resolveTemplate } from "@/lib/templates";
-import { resolveTheme, type InvitationMode } from "@/lib/theme/tokens";
+import { FEUILLE, resolveTheme, type InvitationMode } from "@/lib/theme/tokens";
 import type { FeatureFlags, SectionType, StudioDraft } from "@/lib/types";
 
 interface InvitationCanvasProps {
   draft: StudioDraft;
   mode: InvitationMode;
+  /** Ne rendre que ces types de section (l'aperçu du catalogue ne montre que la couverture). */
+  seulement?: readonly SectionType[];
 }
 
 /** Sections dont l'affichage dépend d'une fonctionnalité du template. */
@@ -37,22 +39,35 @@ function aDuContenu(type: SectionType, draft: StudioDraft): boolean {
  * Le moteur : il ne décrit aucune page. Il parcourt `template.sections`,
  * rend pour chaque entrée le composant de la variante déclarée, et lui
  * fournit le brouillon, le thème résolu et la révélation à jouer.
+ *
+ * La racine est un conteneur (`ofp-root`) : tout ce qui est dimensionné en
+ * `cqi` suit la largeur du cadre, pas celle de l'écran. Sur écran large, le
+ * rendu plein est une feuille de 56 rem posée sur le papier profond, avec
+ * un filet de chaque côté : l'invitation reste un objet, pas une page web
+ * étirée.
  */
-export function InvitationCanvas({ draft, mode }: InvitationCanvasProps) {
+export function InvitationCanvas({ draft, mode, seulement }: InvitationCanvasProps) {
   const template = resolveTemplate(draft.designId);
   const theme = resolveTheme(template.theme, mode);
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  const cadre = theme.full
+    ? `${FEUILLE} min-h-screen lg:border-x`
+    : "h-full w-full overflow-y-auto scrollbar-none";
+
   return (
     <div
-      className={theme.full ? "w-full" : "h-full w-full overflow-y-auto scrollbar-none"}
+      className={`ofp-root ofp-grain ${cadre}`}
       style={{
-        ...theme.fontVars,
+        ...theme.cssVars,
         background: theme.palette.paper,
+        color: theme.palette.ink,
+        borderColor: theme.derives.line,
         fontFamily: "var(--ofp-body)",
       }}
     >
       {template.sections.map((section, index) => {
+        if (seulement && !seulement.includes(section.type)) return null;
         const gate = featureGates[section.type];
         if (gate && !template.features[gate]) return null;
         if (!aDuContenu(section.type, draft)) return null;
