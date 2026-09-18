@@ -7,7 +7,7 @@ import { formatDateFr } from "@/lib/format";
 
 export function PleinCadreCentre() {
   const { draft, template, theme } = useSection();
-  const { accent, ink } = theme.palette;
+  const { accent } = theme.palette;
   const { full } = theme;
 
   const nom1 = draft.prenom1 || "Prénom";
@@ -29,14 +29,14 @@ export function PleinCadreCentre() {
       <div className="relative flex flex-col items-center gap-3 px-6">
         <span
           className={`ofp-body uppercase tracking-[0.35em] ${full ? "text-xs" : "text-[0.55rem]"}`}
-          style={{ color: ink, opacity: 0.6 }}
+          style={{ color: theme.encre("discret") }}
         >
           Le mariage de
         </span>
         <span className={prenomClass} style={{ color: accent }}>
           {nom1}
         </span>
-        <span className="ofp-display text-lg" style={{ color: ink, opacity: 0.6 }}>
+        <span className="ofp-display text-lg" style={{ color: theme.encre("discret") }}>
           &amp;
         </span>
         <span className={prenomClass} style={{ color: accent }}>
@@ -45,7 +45,7 @@ export function PleinCadreCentre() {
         {draft.dateMariage && (
           <span
             className={`mt-4 uppercase tracking-[0.25em] ${full ? "text-sm" : "text-[0.6rem]"}`}
-            style={{ color: ink, opacity: 0.7 }}
+            style={{ color: theme.encre("doux") }}
           >
             {formatDateFr(draft.dateMariage)}
           </span>
