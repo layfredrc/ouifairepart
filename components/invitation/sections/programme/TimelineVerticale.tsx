@@ -24,7 +24,7 @@ export function TimelineVerticale() {
             />
             <p
               className={`ofp-body uppercase tracking-widest ${full ? "text-xs" : "text-[0.55rem]"}`}
-              style={{ color: ink, opacity: 0.55 }}
+              style={{ color: theme.encre("discret") }}
             >
               {step.heure}
             </p>
