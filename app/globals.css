@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #faf6ee;
+  --paper-deep: #f1ead9;
+  --ink: #221c16;
+  --ink-soft: #55493d;
+  --line: #e2d6bf;
+  --accent: #7a2e32;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    "Times New Roman", serif;
+  --font-body: "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display), serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.container-page {
+  max-width: 76rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+@layer components {
+  .input {
+    width: 100%;
+    border-radius: 0.65rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 0.625rem 0.9rem;
+    font-size: 0.875rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .input:focus {
+    border-color: var(--accent);
+  }
+}
+
