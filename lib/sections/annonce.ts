@@ -7,7 +7,13 @@ export interface AnnonceLettreJustifieeOptions {
   signature?: boolean;
 }
 
+export interface AnnonceBandeauOptions {
+  /** Teinte de la bande : encre du thème (par défaut) ou accent. */
+  teinte?: "encre" | "accent";
+}
+
 export interface AnnonceVariants {
   "citation-centree": SansOptions;
   "lettre-justifiee": AnnonceLettreJustifieeOptions;
+  bandeau: AnnonceBandeauOptions;
 }
