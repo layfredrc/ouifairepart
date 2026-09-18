@@ -28,8 +28,8 @@ export const jardinSecretIvoire: TemplateDefinition = {
   decor: {
     motifs: ["arche"],
     density: "moyenne",
-    parallax: false,
-    anchors: ["haut"],
+    parallax: true,
+    anchors: ["haut", "continu"],
   },
   opening: { style: "rideau", duree: 700, cascadePrenoms: false },
   sections: [

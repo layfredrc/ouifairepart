@@ -28,8 +28,8 @@ export const nuitDoreeMinuit: TemplateDefinition = {
   decor: {
     motifs: ["cadre"],
     density: "moyenne",
-    parallax: false,
-    anchors: ["haut"],
+    parallax: true,
+    anchors: ["haut", "continu"],
   },
   opening: { style: "enveloppe", duree: 700, cascadePrenoms: false },
   sections: [

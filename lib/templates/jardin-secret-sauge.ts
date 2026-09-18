@@ -28,10 +28,11 @@ export const jardinSecretSauge: TemplateDefinition = {
   decor: {
     motifs: ["arche"],
     density: "moyenne",
-    parallax: false,
-    anchors: ["haut"],
+    parallax: true,
+    anchors: ["haut", "continu"],
   },
-  opening: { style: "rideau", duree: 700, cascadePrenoms: false },
+  opening: { style: "rideau", duree: 900, cascadePrenoms: true },
+  sound: { pisteId: "demo-jardin", titre: "Piste de démonstration", volume: 0.35 },
   sections: [
     { type: "couverture", variant: "plein-cadre-centre" },
     { type: "annonce", variant: "citation-centree", reveal: { kind: "fade-up" } },

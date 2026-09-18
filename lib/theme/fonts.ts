@@ -1,79 +1,24 @@
-import {
-  Cormorant_Garamond,
-  EB_Garamond,
-  Fraunces,
-  Jost,
-  Karla,
-  Lato,
-  Libre_Baskerville,
-  Playfair_Display,
-  Spectral,
-  Work_Sans,
-} from "next/font/google";
+import { Jost, Karla, Lato, Work_Sans } from "next/font/google";
 import type { FontStackId } from "@/lib/types";
 
 /**
- * Toutes ces familles couvrent la plage `latin` de Google, qui inclut
- * U+00C0-00FF et U+0152-0153 : les accents français et la ligature œ
- * sont rendus par la fonte, jamais par un fallback système.
+ * Deux régimes de polices.
  *
- * Les polices de display sont chargées en romain et en italique, parce
- * qu'un `displayStyle: "italique"` doit tirer une vraie italique et non
- * une oblique synthétisée.
+ * Les polices de corps passent par `next/font` : Jost, corps du site et de
+ * trois collections, est préchargée ; les trois autres sont découvertes
+ * par la feuille de style du template qui les utilise.
  *
- * Seule la paire du site (EB Garamond / Jost) est préchargée : les huit
- * autres n'habillent que la route d'invitation d'un template donné, et
- * les précharger toutes mettrait dix familles en concurrence de bande
- * passante sur la page qui compte le plus (§6).
+ * Les six polices de titrage sont auto-hébergées (`public/fonts/`, déclarées
+ * dans `app/fonts.css`) : leurs URL sont connues du code, et la page
+ * publique peut donc précharger exactement la police de titrage de SON
+ * template, celle qui porte le LCP (§6). `next/font` ne le permet pas :
+ * il précharge par route, jamais par template.
+ *
+ * Toutes couvrent la plage `latin` de Google, qui inclut U+00C0-00FF et
+ * U+0152-0153 : les accents français et la ligature œ sont rendus par la
+ * fonte, jamais par un fallback système. Les titrages sont chargés en
+ * romain et en vraie italique, jamais en oblique synthétisée.
  */
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-  preload: false,
-  variable: "--font-cormorant-garamond",
-});
-
-const spectral = Spectral({
-  subsets: ["latin"],
-  weight: ["300", "400", "600"],
-  style: ["normal", "italic"],
-  display: "swap",
-  preload: false,
-  variable: "--font-spectral",
-});
-
-const playfairDisplay = Playfair_Display({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-  preload: false,
-  variable: "--font-playfair-display",
-});
-
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-eb-garamond",
-});
-
-const libreBaskerville = Libre_Baskerville({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-  preload: false,
-  variable: "--font-libre-baskerville",
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-  preload: false,
-  variable: "--font-fraunces",
-});
 
 const jost = Jost({
   subsets: ["latin"],
@@ -104,7 +49,7 @@ const lato = Lato({
 });
 
 interface FontStack {
-  /** Classe next/font qui déclare la variable CSS. */
+  /** Classe next/font qui déclare la variable CSS ; vide pour une police auto-hébergée. */
   variableClass: string;
   /** Valeur à poser en `font-family`. */
   family: string;
@@ -113,31 +58,34 @@ interface FontStack {
 const serifFallback = `Georgia, "Times New Roman", serif`;
 const sansFallback = `"Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif`;
 
-export const fontStacks: Record<FontStackId, FontStack> = {
+export type FontStyle = "normal" | "italic";
+
+/** Fichiers des polices de titrage auto-hébergées, par style. */
+export const displayFontFiles: Partial<Record<FontStackId, Record<FontStyle, string>>> = {
   "cormorant-garamond": {
-    variableClass: cormorantGaramond.variable,
-    family: `var(--font-cormorant-garamond), ${serifFallback}`,
+    normal: "/fonts/cormorant-garamond-normal.woff2",
+    italic: "/fonts/cormorant-garamond-italic.woff2",
   },
-  spectral: {
-    variableClass: spectral.variable,
-    family: `var(--font-spectral), ${serifFallback}`,
-  },
+  spectral: { normal: "/fonts/spectral-normal.woff2", italic: "/fonts/spectral-italic.woff2" },
   "playfair-display": {
-    variableClass: playfairDisplay.variable,
-    family: `var(--font-playfair-display), ${serifFallback}`,
+    normal: "/fonts/playfair-display-normal.woff2",
+    italic: "/fonts/playfair-display-italic.woff2",
   },
-  "eb-garamond": {
-    variableClass: ebGaramond.variable,
-    family: `var(--font-eb-garamond), ${serifFallback}`,
-  },
+  "eb-garamond": { normal: "/fonts/eb-garamond-normal.woff2", italic: "/fonts/eb-garamond-italic.woff2" },
   "libre-baskerville": {
-    variableClass: libreBaskerville.variable,
-    family: `var(--font-libre-baskerville), ${serifFallback}`,
+    normal: "/fonts/libre-baskerville-normal.woff2",
+    italic: "/fonts/libre-baskerville-italic.woff2",
   },
-  fraunces: {
-    variableClass: fraunces.variable,
-    family: `var(--font-fraunces), ${serifFallback}`,
-  },
+  fraunces: { normal: "/fonts/fraunces-normal.woff2", italic: "/fonts/fraunces-italic.woff2" },
+};
+
+export const fontStacks: Record<FontStackId, FontStack> = {
+  "cormorant-garamond": { variableClass: "", family: `"Cormorant Garamond", ${serifFallback}` },
+  spectral: { variableClass: "", family: `Spectral, ${serifFallback}` },
+  "playfair-display": { variableClass: "", family: `"Playfair Display", ${serifFallback}` },
+  "eb-garamond": { variableClass: "", family: `"EB Garamond", ${serifFallback}` },
+  "libre-baskerville": { variableClass: "", family: `"Libre Baskerville", ${serifFallback}` },
+  fraunces: { variableClass: "", family: `Fraunces, ${serifFallback}` },
   jost: { variableClass: jost.variable, family: `var(--font-jost), ${sansFallback}` },
   karla: { variableClass: karla.variable, family: `var(--font-karla), ${sansFallback}` },
   "work-sans": {
@@ -147,7 +95,8 @@ export const fontStacks: Record<FontStackId, FontStack> = {
   lato: { variableClass: lato.variable, family: `var(--font-lato), ${sansFallback}` },
 };
 
-/** À poser sur `<html>` : rend les dix familles adressables par variable CSS. */
+/** À poser sur `<html>` : rend les polices de corps adressables par variable CSS. */
 export const fontVariablesClassName = Object.values(fontStacks)
   .map((stack) => stack.variableClass)
+  .filter(Boolean)
   .join(" ");

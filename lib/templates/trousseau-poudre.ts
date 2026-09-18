@@ -28,8 +28,8 @@ export const trousseauPoudre: TemplateDefinition = {
   decor: {
     motifs: ["voute"],
     density: "moyenne",
-    parallax: false,
-    anchors: ["haut"],
+    parallax: true,
+    anchors: ["haut", "continu"],
   },
   opening: { style: "enveloppe", duree: 700, cascadePrenoms: false },
   sections: [

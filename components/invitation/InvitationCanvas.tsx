@@ -1,9 +1,9 @@
 "use client";
 
+import { DecorContinu } from "@/components/invitation/decor/DecorContinu";
 import { SectionScope } from "@/components/invitation/engine/SectionScope";
 import { lookupVariant } from "@/components/invitation/engine/registry";
 import { usePrefersReducedMotion } from "@/lib/motion/usePrefersReducedMotion";
-import { revealMotion } from "@/lib/motion/reveal";
 import { resolveTemplate } from "@/lib/templates";
 import { FEUILLE, resolveTheme, type InvitationMode } from "@/lib/theme/tokens";
 import type { FeatureFlags, SectionType, StudioDraft } from "@/lib/types";
@@ -66,6 +66,7 @@ export function InvitationCanvas({ draft, mode, seulement }: InvitationCanvasPro
         fontFamily: "var(--ofp-body)",
       }}
     >
+      {theme.full && <DecorContinu decor={template.decor} palette={theme.palette} stroke={theme.tokens.stroke} />}
       {template.sections.map((section, index) => {
         if (seulement && !seulement.includes(section.type)) return null;
         const gate = featureGates[section.type];
@@ -85,9 +86,8 @@ export function InvitationCanvas({ draft, mode, seulement }: InvitationCanvasPro
               intensity: draft.animationIntensity,
               sectionType: section.type,
               anchorId: section.type,
-              reveal: prefersReducedMotion
-                ? null
-                : revealMotion(section.reveal, draft.animationIntensity),
+              reveal: prefersReducedMotion ? null : (section.reveal ?? null),
+              differee: theme.full && index > 0,
             }}
           >
             <Variant options={section.options ?? {}} />
