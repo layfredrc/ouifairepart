@@ -49,7 +49,7 @@ export function LettreJustifiee({
           className={`ofp-body text-right uppercase tracking-[0.25em] ${
             full ? "mb-8 text-xs" : "mb-4 text-[0.5rem]"
           }`}
-          style={{ color: ink, opacity: 0.7 }}
+          style={{ color: ink, opacity: 0.75 }}
         >
           {ligneEnTete}
         </p>

@@ -67,7 +67,7 @@ export function EditorialBasGauche({
           className={`ofp-body flex items-center gap-3 uppercase tracking-[0.35em] ${
             full ? "text-xs" : "text-[0.55rem]"
           }`}
-          style={{ color: ink, opacity: 0.6 }}
+          style={{ color: ink, opacity: 0.75 }}
         >
           <span
             aria-hidden="true"
@@ -86,7 +86,7 @@ export function EditorialBasGauche({
           </p>
           <p
             className={`ofp-display ${full ? "my-1 text-2xl" : "text-base"}`}
-            style={{ color: ink, opacity: 0.6 }}
+            style={{ color: ink, opacity: 0.75 }}
           >
             &amp;
           </p>
@@ -100,7 +100,7 @@ export function EditorialBasGauche({
             className={`ofp-body flex items-baseline justify-between gap-4 border-t uppercase tracking-[0.25em] ${
               full ? "mt-8 pt-4 text-xs" : "mt-3 pt-2 text-[0.5rem]"
             }`}
-            style={{ borderColor: `${accent}66`, color: ink, opacity: 0.7 }}
+            style={{ borderColor: `${accent}66`, color: ink, opacity: 0.75 }}
           >
             <span>{date}</span>
             <span className="text-right">{ville}</span>

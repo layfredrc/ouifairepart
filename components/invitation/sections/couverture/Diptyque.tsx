@@ -69,7 +69,7 @@ export function Diptyque({
         >
           <p
             className={`ofp-body uppercase tracking-[0.35em] ${full ? "text-xs" : "text-[0.55rem]"}`}
-            style={{ color: ink, opacity: 0.6 }}
+            style={{ color: ink, opacity: 0.75 }}
           >
             Le mariage de
           </p>
@@ -90,7 +90,7 @@ export function Diptyque({
               <span className="h-px flex-1" style={filet} />
               <span
                 className={`ofp-display ${full ? "text-2xl" : "text-base"}`}
-                style={{ color: ink, opacity: 0.6 }}
+                style={{ color: ink, opacity: 0.75 }}
               >
                 &amp;
               </span>
@@ -120,7 +120,7 @@ export function Diptyque({
             {ville && (
               <span
                 className={`ofp-display ${theme.displayStyleClass} ${full ? "text-lg" : "text-xs"}`}
-                style={{ color: ink, opacity: 0.7 }}
+                style={{ color: ink, opacity: 0.75 }}
               >
                 {ville}
               </span>
