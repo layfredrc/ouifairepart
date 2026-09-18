@@ -30,7 +30,7 @@ export function SignatureCentree() {
           style={{ color: ink }}
         >
           {nom1}
-          <span aria-hidden="true" className="px-[0.3em] not-italic" style={{ color: accent }}>
+          <span aria-hidden="true" className="px-[0.3em]" style={{ color: accent }}>
             &amp;
           </span>
           <span className="sr-only">et </span>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useMotion } from "@/components/invitation/engine/MotionRoot";
 import { deriverPalette } from "@/lib/theme/palette";
 import { ETIQUETTE, FEUILLE } from "@/lib/theme/tokens";
 import type { TemplateDefinition } from "@/lib/types";
@@ -22,6 +23,7 @@ export function ActionBar({ template }: { template: TemplateDefinition }) {
   const { ink, paper, accent } = template.theme.palette;
   const { line } = deriverPalette(template.theme.palette);
   const [visible, setVisible] = useState(false);
+  const { scrollTo } = useMotion();
 
   useEffect(() => {
     const surveiller = () => setVisible(window.scrollY > window.innerHeight * 0.6);
@@ -46,6 +48,11 @@ export function ActionBar({ template }: { template: TemplateDefinition }) {
           <a
             key={item.href}
             href={item.href}
+            onClick={(e) => {
+              // Sous défilement lissé, l'ancre native ne mène nulle part :
+              // le runtime défile lui-même. Sans lui, le navigateur le fait.
+              if (scrollTo(item.href)) e.preventDefault();
+            }}
             className={`${ETIQUETTE} transition-colors hover:text-(--ofp-accent)`}
             style={{ color: ink }}
           >

@@ -28,8 +28,8 @@ export const lumiereAutomneCuivre: TemplateDefinition = {
   decor: {
     motifs: ["semis"],
     density: "moyenne",
-    parallax: false,
-    anchors: ["haut"],
+    parallax: true,
+    anchors: ["haut", "continu"],
   },
   opening: { style: "rideau", duree: 700, cascadePrenoms: false },
   sections: [

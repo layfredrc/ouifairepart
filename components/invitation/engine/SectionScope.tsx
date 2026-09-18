@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import type { RevealMotion } from "@/lib/motion/reveal";
 import type { ResolvedTheme } from "@/lib/theme/tokens";
 import type {
   AnimationIntensity,
+  RevealSpec,
   SectionType,
   StudioDraft,
   TemplateDefinition,
@@ -17,7 +17,10 @@ export interface SectionContextValue {
   intensity: AnimationIntensity;
   sectionType: SectionType;
   anchorId: string;
-  reveal: RevealMotion | null;
+  /** Révélation déclarée par le template ; `null` sous `prefers-reduced-motion`. */
+  reveal: RevealSpec | null;
+  /** Hors écran au premier rendu : la section est rendue, mais sa mise en page est différée. */
+  differee: boolean;
 }
 
 const SectionContext = createContext<SectionContextValue | null>(null);

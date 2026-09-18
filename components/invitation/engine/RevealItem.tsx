@@ -1,13 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { useSection } from "@/components/invitation/engine/SectionScope";
-import { revealItemVariants } from "@/lib/motion/reveal";
 
 /**
- * Enfant orchestré par une section en révélation `cascade`. Sous les
- * autres révélations — ou sans mouvement — il ne laisse qu'un `div`.
+ * Enfant orchestré par une section en révélation `cascade`. Il ne fait
+ * que se déclarer (`data-reveal-item`) : sous les autres révélations, ou
+ * sans runtime, il ne laisse qu'un `div`.
  */
 export function RevealItem({
   className,
@@ -16,15 +15,11 @@ export function RevealItem({
   className?: string;
   children: ReactNode;
 }) {
-  const { reveal, intensity } = useSection();
-
-  if (!reveal) {
-    return <div className={className}>{children}</div>;
-  }
+  const { reveal } = useSection();
 
   return (
-    <motion.div className={className} variants={revealItemVariants(intensity)}>
+    <div className={className} data-reveal-item={reveal?.kind === "cascade" ? "" : undefined}>
       {children}
-    </motion.div>
+    </div>
   );
 }

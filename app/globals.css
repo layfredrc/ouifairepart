@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 :root {
   --paper: #faf6ee;
@@ -7,7 +8,7 @@
   --ink-soft: #55493d;
   --line: #e2d6bf;
   --accent: #7a2e32;
-  --site-display: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
+  --site-display: "EB Garamond", Georgia, "Times New Roman", serif;
   --site-body: var(--font-jost), "Segoe UI", "Helvetica Neue", Helvetica, Arial,
     sans-serif;
 }
@@ -34,6 +35,19 @@ h2,
 h3,
 .font-display {
   font-family: var(--site-display);
+}
+
+/* Paire de polices du template rendu. Les variables sont posées par le
+   moteur sur la racine de l'invitation ou de l'aperçu. Hors de tout
+   `@layer`, après les règles du site : un `h1` d'invitation prend la
+   police du template, jamais celle du site (une règle non stratifiée
+   l'emporte sur toute règle stratifiée, quelle que soit la spécificité). */
+.ofp-display {
+  font-family: var(--ofp-display, var(--site-display));
+  font-feature-settings: "liga", "kern";
+}
+.ofp-body {
+  font-family: var(--ofp-body, var(--site-body));
 }
 
 ::selection {
@@ -77,16 +91,6 @@ h3,
   }
   .input:focus {
     border-color: var(--accent);
-  }
-
-  /* Paire de polices du template rendu. Les variables sont posées par le
-     moteur sur la racine de l'invitation ou de l'aperçu. */
-  .ofp-display {
-    font-family: var(--ofp-display, var(--site-display));
-    font-feature-settings: "liga", "kern";
-  }
-  .ofp-body {
-    font-family: var(--ofp-body, var(--site-body));
   }
 
   /* Racine d'un rendu d'invitation : un conteneur, pour que les corps de
@@ -147,5 +151,81 @@ h3,
   }
   .ofp-champ:disabled {
     opacity: 1;
+  }
+
+  /* Sections hors écran au premier rendu : présentes dans le HTML, donc
+     lisibles sans JavaScript, mais dont la mise en page et la peinture
+     sont différées jusqu'à l'approche du viewport (§6). */
+  .ofp-section-differee {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 70svh;
+  }
+
+  /* Le voile du portail. Il ne peut jamais masquer l'invitation pour de
+     bon : sans hydratation à temps, cette animation l'efface d'elle-même.
+     `data-pret` est posé par le composant une fois hydraté, et seulement
+     s'il l'est avant l'échéance. */
+  .ofp-voile {
+    animation: ofp-voile-secours 0.9s ease-in 6s forwards;
+  }
+  .ofp-voile[data-pret] {
+    animation: none;
+  }
+  @keyframes ofp-voile-secours {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  /* Ouverture sans runtime : la même chorégraphie, en transitions CSS.
+     GSAP, quand il est là, pilote les mêmes éléments par ses tweens. */
+  .ofp-voile.is-ouvert [data-contenu] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .ofp-voile[data-style="rideau"] .ofp-volet {
+    transition: transform var(--ofp-duree, 700ms) cubic-bezier(0.65, 0, 0.35, 1) 0.1s;
+  }
+  .ofp-voile[data-style="rideau"].is-ouvert [data-volet="gauche"] {
+    transform: translateX(-100%);
+  }
+  .ofp-voile[data-style="rideau"].is-ouvert [data-volet="droite"] {
+    transform: translateX(100%);
+  }
+  .ofp-voile[data-style="enveloppe"] {
+    perspective: 1200px;
+    transition: transform calc(var(--ofp-duree, 700ms) * 0.7) cubic-bezier(0.7, 0, 0.84, 0)
+      calc(var(--ofp-duree, 700ms) * 0.45);
+  }
+  .ofp-voile[data-style="enveloppe"] .ofp-rabat {
+    transform-origin: top center;
+    transition: transform calc(var(--ofp-duree, 700ms) * 0.55) ease-in-out 0.1s;
+  }
+  .ofp-voile[data-style="enveloppe"].is-ouvert .ofp-rabat {
+    transform: rotateX(-170deg);
+  }
+  .ofp-voile[data-style="enveloppe"].is-ouvert {
+    transform: translateY(100%);
+  }
+  .ofp-voile[data-style="fondu"] {
+    transition: opacity var(--ofp-duree, 700ms) ease-in-out 0.1s;
+  }
+  .ofp-voile[data-style="fondu"].is-ouvert {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ofp-voile,
+    .ofp-voile .ofp-volet,
+    .ofp-voile .ofp-rabat,
+    .ofp-voile.is-ouvert [data-contenu] {
+      transition-duration: 1ms;
+      transition-delay: 0s;
+    }
+    .ofp-voile {
+      animation-delay: 6s;
+      animation-duration: 1ms;
+    }
   }
 }

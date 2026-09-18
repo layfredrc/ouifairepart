@@ -50,7 +50,7 @@ export function PleinCadreCentre() {
           {nom1}
           <span
             aria-hidden="true"
-            className="block py-[0.12em] text-[0.42em] not-italic leading-none"
+            className="block py-[0.12em] text-[0.42em] leading-none"
             style={{ color: accent }}
           >
             &amp;
