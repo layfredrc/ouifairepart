@@ -12,6 +12,15 @@ export interface LieuCarteEncadreeOptions {
   dressCode?: boolean;
 }
 
+export interface LieuDuoLieuxOptions {
+  /** Services d'itinéraire proposés sous chaque adresse. */
+  itineraires?: readonly string[];
+  /** Ornement posé sur le séparateur entre les deux lieux. `losange` par défaut. */
+  ornement?: "losange" | "esperluette" | "aucun";
+  /** Rappelle le dress code sous les deux lieux, comme `centre-simple`. Vrai par défaut. */
+  dressCode?: boolean;
+}
+
 /**
  * Variantes de lieu et leurs options.
  *
@@ -21,4 +30,5 @@ export interface LieuCarteEncadreeOptions {
 export interface LieuVariants {
   "centre-simple": LieuCentreSimpleOptions;
   "carte-encadree": LieuCarteEncadreeOptions;
+  "duo-lieux": LieuDuoLieuxOptions;
 }
