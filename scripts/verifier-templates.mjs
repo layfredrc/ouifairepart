@@ -55,6 +55,16 @@ const COUPLES = [
   { role: "cagnotte · texte", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
   { role: "cagnotte · bouton", texte: "ink", niveau: "fort", fond: "paper", px: 14 },
   { role: "contact · signature", texte: "ink", niveau: "doux", fond: "paper", px: 14 },
+  // Passe 2 — couverture (editorial-bas-gauche, diptyque, medaillon)
+  { role: "couverture · ville", texte: "ink", niveau: "doux", fond: "paper", px: 18 },
+  { role: "couverture · étiquette de cartouche", texte: "ink", niveau: "fort", fond: "paper", px: 12 },
+  // Passe 2 — annonce (lettre-justifiee, bandeau)
+  { role: "annonce · lettrine", texte: "accent", niveau: "fort", fond: "paper", px: 65 },
+  { role: "annonce · lettre en-tête", texte: "ink", niveau: "doux", fond: "paper", px: 12 },
+  { role: "annonce · lettre corps", texte: "ink", niveau: "fort", fond: "paper", px: 18 },
+  { role: "annonce · lettre signature", texte: "accent", niveau: "fort", fond: "paper", px: 24 },
+  { role: "annonce · bandeau encre", texte: "paper", niveau: "fort", fond: "ink", px: 24 },
+  { role: "annonce · bandeau accent", texte: "paper", niveau: "fort", fond: "accent", px: 24 },
 ];
 
 /** Doit rester aligné sur `opacitesSouhaitees` de lib/theme/tokens.ts. */
